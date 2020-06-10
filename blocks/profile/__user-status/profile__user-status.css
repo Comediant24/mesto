@@ -1,0 +1,8 @@
+.profile__user-status {
+  font-size: 18px;
+  max-width: 300px;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
