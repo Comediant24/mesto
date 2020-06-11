@@ -1,0 +1,10 @@
+@import url(./__cards/places__cards.css);
+@import url(./__items/places__items.css);
+@import url(./__image/places__image.css);
+@import url(./__name/places__name.css);
+@import url(./__title/places__title.css);
+@import url(./__button/places__button.css);
+
+.places {
+  margin-bottom: 66px;
+}
