@@ -8,4 +8,9 @@
   text-align: center;
   color: #FFFFFF;
   border: 0;
-  }
+  transition: opacity 0.2s linear;
+}
+
+.popup__save-button:hover {
+  opacity: 0.8;
+}

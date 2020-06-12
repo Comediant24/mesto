@@ -1,3 +1,11 @@
+.header__logo {
+  transition: opacity 0.2s linear;
+}
+
+.header__logo:hover {
+  opacity: 0.4;
+}
+
 @media screen and (max-width: 900px) {
   .header__logo {
     margin-left: 27px;
