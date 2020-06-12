@@ -1,8 +1,15 @@
-.profile__user-edit {
+.profile__user-edit-button {
   background-image: url(../../../images/edit-button.png);
   background-position: center;
   border: 2px solid #FFFFFF;
   box-sizing: border-box;
   width: 24px;
   height: 24px;
+}
+
+@media screen and (max-width: 530px) {
+  .profile__user-edit-button {
+    width: 18px;
+    height: 18px;
+  }
 }

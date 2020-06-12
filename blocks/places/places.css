@@ -8,3 +8,9 @@
 .places {
   margin-bottom: 66px;
 }
+
+@media screen and (max-width: 660px) {
+  .places {
+    margin-bottom: 48px;
+  }
+}
