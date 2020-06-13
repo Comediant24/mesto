@@ -5,3 +5,11 @@
 @import url(./__input/popup__input.css);
 @import url(./__save-button/popup__save-button.css);
 @import url(./__close-button/popup__close-button.css);
+
+.popup {
+  display: none;
+}
+
+.popup_opened {
+  display: block;
+}
