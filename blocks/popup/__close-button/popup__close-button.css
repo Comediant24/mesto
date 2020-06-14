@@ -10,7 +10,6 @@
   justify-self: end;
   margin-left: auto;
   border: 0;
-  transition: opacity 0.2s linear;
 }
 
 @media screen and (max-width: 450px) {
@@ -19,8 +18,4 @@
     top: -32px;
     right: -32px;
   }
-}
-
-.popup__close-button:hover {
-  opacity: 0.6;
 }
