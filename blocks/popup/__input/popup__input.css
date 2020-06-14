@@ -8,6 +8,9 @@
   color: #000000;
   min-height: 27px;
   box-sizing: border-box;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .popup__input:last-of-type {
