@@ -13,10 +13,8 @@ function popupToggle () {
   if (!(popup.classList.contains('popup_opened'))) {  // проверка отсутствия у popup модификатора popup_opened
     nameInput.value = nameUser.textContent;
     jobInput.value = jobUser.textContent;
-    popup.classList.toggle('popup_opened');
-  } else {
-    popup.classList.toggle('popup_opened');
   }
+  popup.classList.toggle('popup_opened');
 }
 
 // Функция для отправки введенной информации 
