@@ -8,6 +8,49 @@ const formPopup = document.querySelector('.popup__edit-form');
 const nameInput = popup.querySelector('.popup__input_type_name');
 const jobInput = popup.querySelector('.popup__input_type_status');
 
+const initialCards = [
+  {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+
+//инициализация карточек в зависмости от массива
+initialCards.forEach ( function (item) {
+  const placesTemplate = document.querySelector('#places-template').content;
+  const placesCardList = document.querySelector('.places__cards');
+  const placesItems = placesTemplate.cloneNode(true);
+  
+  const placesTitle = placesItems.querySelector('.places__title');
+  const placesImage = placesItems.querySelector('.places__image');
+  
+  placesTitle.textContent = item.name;
+  placesImage.src = item.link;
+  
+  placesCardList.append(placesItems);
+})
+
 // Функция переключатель класса у popup
 function popupToggle () {
   if (!(popup.classList.contains('popup_opened'))) {  // проверка отсутствия у popup модификатора popup_opened
