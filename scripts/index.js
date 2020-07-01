@@ -1,4 +1,3 @@
-//const popup = document.querySelector('.popup');
 const popupProfile = document.querySelector('.popup_edit-profile');
 const editProfileButton = document.querySelector('.profile__user-edit-button');
 const popupProfileCloseButton = document.querySelector('.popup__close-button_edit-profile');
@@ -17,30 +16,36 @@ const popupPlacesForm = document.querySelector('.popup__form_add-places');
 const popupPlacesNameInput = document.querySelector('.popup__input_type_places-name');
 const popupPlacesImageInput = document.querySelector('.popup__input_type_place-image');
 
+// Слушатели событий popup для image
+const popupImage = document.querySelector('.popup_image-places');
+
+const popupImageCloseButton = document.querySelector('.popup__close-button_image-places');
+const popupImageOverlay = document.querySelector('.popup__overlay_image-places');
+
 const initialCards = [
   {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
   },
   {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
   },
   {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
   },
   {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
   },
   {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
   },
   {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
 
@@ -79,7 +84,6 @@ formSubmitHandlerPlaces = evt => {
 
 // Функция добавления новых карточек
 function addPlaces (title, image) {
-  console.log(title, image)
   const placesTemplate = document.querySelector('#places-template').content;
   const placesCardList = document.querySelector('.places__cards');
   const placesItems = placesTemplate.cloneNode(true);
@@ -89,7 +93,7 @@ function addPlaces (title, image) {
   
   placesTitle.textContent = title;
   placesImage.src = image;
-  placesImage.setAttribute('alt', `${title}. Красивые места России.`)
+  placesImage.alt = `${title}. Красивые места России.`;
   
   // Функция лайка places
   const likePlacesbutton = placesItems.querySelector('.places__button-like');
@@ -97,11 +101,23 @@ function addPlaces (title, image) {
     const eventTarget = evt.target;
     eventTarget.classList.toggle('places__button-like_enabled');
   });
-
+  
+  // Функция удаления карточки
   const deletePlacesButton = placesItems.querySelector('.places__button-delete');
   deletePlacesButton.addEventListener('click', () => {
     const placesItem = deletePlacesButton.closest('.places__items');
     placesItem.remove();
+  });
+
+  // Функция попапа карточки
+  const imageButton = placesItems.querySelector('.places__image');
+  const popupImagePlaces = document.querySelector('.popup__places-image');
+  const popupImageTitle = document.querySelector('.popup__places-title');
+  imageButton.addEventListener('click', () => {
+    popupImagePlaces.src = image;
+    popupImagePlaces.alt = `${title}. Красивые места России.`;
+    popupImageTitle.textContent = title;
+    popupToggle(popupImage)
   });
   
   placesCardList.prepend(placesItems);  
@@ -131,3 +147,12 @@ popupPlacesCloseButton.addEventListener('click', () => {
   popupToggle(popupPlaces)
 });
 popupPlacesForm.addEventListener('submit', formSubmitHandlerPlaces);
+
+
+popupImageOverlay.addEventListener('click', () => {
+  popupToggle(popupImage)
+});
+
+popupImageCloseButton.addEventListener('click', () => {
+  popupToggle(popupImage)
+});
