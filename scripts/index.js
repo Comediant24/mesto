@@ -23,27 +23,27 @@ const popupImageOverlay = document.querySelector('.popup__overlay_image-places')
 const initialCards = [
   {
     name: 'Селигер',
-    link: '../images/seliger.jpg'
+    link: './images/seliger.jpg'
   },
   {
     name: 'Сахалин',
-    link: '../images/sahalin_134.jpg'
+    link: './images/sahalin_134.jpg'
   },
   {
     name: 'Эвенкия',
-    link: '../images/plato-putarano.png'
+    link: './images/plato-putarano.png'
   },
   {
     name: 'Якутия',
-    link: '../images/lensk-stolb.jpg'
+    link: './images/lensk-stolb.jpg'
   },
   {
     name: 'Байкал',
-    link: '../images/baikal.jpg'
+    link: './images/baikal.jpg'
   },
   {
     name: 'Красноярск',
-    link: '../images/kras-stolb.jpg'
+    link: './images/kras-stolb.jpg'
   }
 ];
 
