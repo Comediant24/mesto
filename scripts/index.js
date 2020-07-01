@@ -96,6 +96,12 @@ function addPlaces (title, image) {
     const eventTarget = evt.target;
     eventTarget.classList.toggle('places__button-like_enabled');
   });
+
+  const deletePlacesButton = placesItems.querySelector('.places__button-delete');
+  deletePlacesButton.addEventListener('click', () => {
+    const placesItem = deletePlacesButton.closest('.places__items');
+    placesItem.remove();
+  });
   
   placesCardList.prepend(placesItems);  
 }
