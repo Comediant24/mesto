@@ -89,7 +89,8 @@ function addPlaces (title, image) {
   
   placesTitle.textContent = title;
   placesImage.src = image;
-
+  placesImage.setAttribute('alt', `${title}. Красивые места России.`)
+  
   // Функция лайка places
   const likePlacesbutton = placesItems.querySelector('.places__button-like');
   likePlacesbutton.addEventListener('click', (evt) => {
