@@ -101,8 +101,8 @@ function likePlacesItem (cloneNode) {
 
 // Функция удаления карточки
 function deletePlacesItem (cloneNode) {
-  cloneNode.querySelector('.places__button-delete').addEventListener('click', () => {
-    const placesItem = deletePlacesButton.closest('.places__items');
+  cloneNode.querySelector('.places__button-delete').addEventListener('click', (evt) => {
+    const placesItem = evt.target.closest('.places__items');
     placesItem.remove();
   });
 };
