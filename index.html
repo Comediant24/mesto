@@ -35,24 +35,45 @@
         &copy; 2020 Mesto Russia
       </p>
     </footer>
-    <section class="popup">
-      <div class="popup__overlay"></div>
-      <form class="popup__edit-form" name="user-info" action="#" method="POST">
+
+    <section class="popup popup_edit-profile">
+      <div class="popup__overlay popup__overlay_edit-profile"></div>
+      <form class="popup__form popup__form_edit-profile" name="user-info" action="#" method="POST">
         <h3 class="popup__title">Редактировать профиль</h3>
         <fieldset class="popup__input-container">
-          <input class="popup__input popup__input_type_name" name="user-name" type="text" placeholder="Ваше имя" required>
-          <input class="popup__input popup__input_type_status" name="user-job" type="text" placeholder="Профессия" required>
+          <input class="popup__input popup__input_type_profile-name" name="user-name" type="text" placeholder="Ваше имя" required>
+          <input class="popup__input popup__input_type_profile-status" name="user-job" type="text" placeholder="Профессия" required>
         </fieldset>
         <button class="button popup__save-button" type="submit">Сохранить</button>
-        <button class="button popup__close-button" type="button" aria-label="Закрыть окно"></button>
+        <button class="button popup__close-button popup__close-button_edit-profile" type="button" aria-label="Закрыть окно"></button>
       </form>
     </section>
+
+
+    <section class="popup popup_add-places">
+      <div class="popup__overlay popup__overlay_add-places"></div>
+      <form class="popup__form popup__form_add-places" name="places-add" action="#" method="POST">
+        <h3 class="popup__title">Новое место</h3>
+        <fieldset class="popup__input-container">
+          <input class="popup__input popup__input_type_places-name" name="places-name" type="text" placeholder="Название" required>
+          <input class="popup__input popup__input_type_place-image" name="places-image" type="text" placeholder="Ссылка на картинку" required>
+        </fieldset>
+        <button class="button popup__save-button" type="submit">Создать</button>
+        <button class="button popup__close-button popup__close-button__add-places" type="button" aria-label="Закрыть окно"></button>
+      </form>
+    </section>
+
+
+
+
+
+
   </div>
 
 
   <template id="places-template">
     <li class="places__items">
-      <img alt="Красноярские столбы" class="places__image">
+      <img src ='#' alt="Красноярские столбы" class="places__image">
       <div class="places__name">
         <h2 class="places__title"></h2>
         <button class="button places__button" type="button" aria-label="Поставить лайк месту"></button>
@@ -64,3 +85,7 @@
   <script src="./scripts/index.js"></script>
 </body>
 </html>
+
+
+
+<!-- ОТредакртировать ALT -->

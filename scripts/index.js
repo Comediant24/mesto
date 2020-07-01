@@ -1,12 +1,89 @@
-const editButton = document.querySelector('.profile__user-edit-button');
-const nameUser = document.querySelector('.profile__user-name');
-const jobUser = document.querySelector('.profile__user-job');
-const popup = document.querySelector('.popup');
-const closeButton = document.querySelector('.popup__close-button');
-const popupOverlay = document.querySelector('.popup__overlay');
-const formPopup = document.querySelector('.popup__edit-form');
-const nameInput = popup.querySelector('.popup__input_type_name');
-const jobInput = popup.querySelector('.popup__input_type_status');
+//const popup = document.querySelector('.popup');
+const popupProfile = document.querySelector('.popup_edit-profile');
+const editProfileButton = document.querySelector('.profile__user-edit-button');
+const popupProfileCloseButton = document.querySelector('.popup__close-button_edit-profile');
+const popupProfileOverlay = document.querySelector('.popup__overlay_edit-profile');
+const nameProfileUser = document.querySelector('.profile__user-name');
+const jobProfileUser = document.querySelector('.profile__user-job');
+const popupProfileForm = document.querySelector('.popup__form_edit-profile');
+const popupProfileNameInput = document.querySelector('.popup__input_type_profile-name');
+const popupProfileJobInput = document.querySelector('.popup__input_type_profile-status');
+
+const popupPlaces = document.querySelector('.popup_add-places');
+const addPlacesButton = document.querySelector('.profile__add-button');
+const popupPlacesCloseButton = document.querySelector('.popup__close-button__add-places');
+const popupPlacesOverlay = document.querySelector('.popup__overlay_add-places');
+const popupPlacesForm = document.querySelector('.popup__form_add-places');
+const popupPlacesNameInput = document.querySelector('.popup__input_type_places-name');
+const popupPlacesImageInput = document.querySelector('.popup__input_type_place-image');
+
+
+// Функция переключатель класса у popup
+popupToggle = popup => {
+  if (!(popup.classList.contains('popup_opened'))) {
+    popupProfileNameInput.value = nameProfileUser.textContent;
+    popupProfileJobInput.value = jobProfileUser.textContent;
+    popupPlacesNameInput.value = '';
+    popupPlacesImageInput.value = '';
+  }
+  popup.classList.toggle('popup_opened');
+}
+
+// Функция для отправки введенной информации profile
+formSubmitHandlerProfile = evt => {
+  evt.preventDefault();
+  nameProfileUser.textContent = popupProfileNameInput.value;
+  jobProfileUser.textContent = popupProfileJobInput.value;
+  popupToggle (popupProfile);
+}
+
+// Функция для отправки введенной информации places
+formSubmitHandlerPlaces = evt => {
+  evt.preventDefault();
+  addPlaces (popupPlacesNameInput.value, popupPlacesImageInput.value);
+  popupToggle (popupPlaces);
+}
+
+// Функция добавления новых карточек
+addPlaces = (title, image) => {
+  console.log(title, image)
+  const placesTemplate = document.querySelector('#places-template').content;
+  const placesCardList = document.querySelector('.places__cards');
+  const placesItems = placesTemplate.cloneNode(true);
+  
+  const placesTitle = placesItems.querySelector('.places__title');
+  const placesImage = placesItems.querySelector('.places__image');
+  
+  placesTitle.textContent = title;
+  placesImage.src = image;
+  
+  placesCardList.prepend(placesItems);
+}
+
+// Слушатели событий popup для user
+popupProfileOverlay.addEventListener('click', () => {
+  popupToggle(popupProfile)
+});
+editProfileButton.addEventListener('click', () => {
+  popupToggle(popupProfile)
+});
+popupProfileCloseButton.addEventListener('click', () => {
+  popupToggle(popupProfile)
+});
+popupProfileForm.addEventListener('submit', formSubmitHandlerProfile);
+
+
+// Слушатели событий popup для places
+popupPlacesOverlay.addEventListener('click', () => {
+  popupToggle(popupPlaces)
+});
+addPlacesButton.addEventListener('click', () => {
+  popupToggle(popupPlaces)
+});
+popupPlacesCloseButton.addEventListener('click', () => {
+  popupToggle(popupPlaces)
+});
+popupPlacesForm.addEventListener('submit', formSubmitHandlerPlaces);
 
 const initialCards = [
   {
@@ -35,41 +112,7 @@ const initialCards = [
   }
 ];
 
-
-//инициализация карточек в зависмости от массива
-initialCards.forEach ( function (item) {
-  const placesTemplate = document.querySelector('#places-template').content;
-  const placesCardList = document.querySelector('.places__cards');
-  const placesItems = placesTemplate.cloneNode(true);
-  
-  const placesTitle = placesItems.querySelector('.places__title');
-  const placesImage = placesItems.querySelector('.places__image');
-  
-  placesTitle.textContent = item.name;
-  placesImage.src = item.link;
-  
-  placesCardList.append(placesItems);
-})
-
-// Функция переключатель класса у popup
-function popupToggle () {
-  if (!(popup.classList.contains('popup_opened'))) {  // проверка отсутствия у popup модификатора popup_opened
-    nameInput.value = nameUser.textContent;
-    jobInput.value = jobUser.textContent;
-  }
-  popup.classList.toggle('popup_opened');
-}
-
-// Функция для отправки введенной информации 
-function formSubmitHandler (evt) {
-  evt.preventDefault();
-  nameUser.textContent = nameInput.value;
-  jobUser.textContent = jobInput.value;
-  popupToggle ()
-}
-
-// Слушатели событий popup
-popupOverlay.addEventListener('click', popupToggle);
-editButton.addEventListener('click', popupToggle);
-closeButton.addEventListener('click', popupToggle);
-formPopup.addEventListener('submit', formSubmitHandler);
+//инициализация стартовых карточек массива
+initialCards.forEach (item => {
+  addPlaces (item.name, item.link);
+});
