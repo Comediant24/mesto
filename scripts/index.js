@@ -66,29 +66,40 @@ formSubmitHandlerProfile = evt => {
 // Функция для отправки введенной информации places
 formSubmitHandlerPlaces = evt => {
   evt.preventDefault();
-  addPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);
+  const place = addPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);  
   popupPlacesNameInput.value = '';
   popupPlacesImageInput.value = '';
+  renderPlaceItemNew (place);
   popupToggle (popupPlaces);
 }
 
+// Функция добавления новых карточек в начало
+function renderPlaceItemNew (item) {
+  placesCardList.prepend(item);
+}
+
+// Функция добавления стартовых карточек попорядку
+function renderPlaceItemStart (item) {
+  placesCardList.append(item);
+};
+
 // Функция добавления карточек
 function addPlace (title, image) {
-  const placesItem = placesTemplate.cloneNode(true);
+  const placeItem = placesTemplate.cloneNode(true);
   
-  placesItem.querySelector('.places__title').textContent = title;
-  placesItem.querySelector('.places__image').src = image;
-  placesItem.querySelector('.places__image').alt = `${title}. Красивые места России.`;
+  placeItem.querySelector('.places__title').textContent = title;
+  placeItem.querySelector('.places__image').src = image;
+  placeItem.querySelector('.places__image').alt = `${title}. Красивые места России.`;
   
-  likePlacesItem (placesItem);
-  deletePlacesItem (placesItem);
-  renderPopupImage (title, image, placesItem);
+  likePlaceItem (placeItem);
+  deletePlaceItem (placeItem);
+  renderPopupImage (title, image, placeItem);
   
-  placesCardList.prepend(placesItem);  
+  return placeItem;
 }
 
 // Функция лайка places
-function likePlacesItem (cloneNode) {
+function likePlaceItem (cloneNode) {
   cloneNode.querySelector('.places__button-like').addEventListener('click', (evt) => {
     const eventTarget = evt.target;
     eventTarget.classList.toggle('places__button-like_enabled');
@@ -96,7 +107,7 @@ function likePlacesItem (cloneNode) {
 }
 
 // Функция удаления карточки
-function deletePlacesItem (cloneNode) {
+function deletePlaceItem (cloneNode) {
   cloneNode.querySelector('.places__button-delete').addEventListener('click', (evt) => {
     const placesItem = evt.target.closest('.places__items');
     placesItem.remove();
@@ -115,7 +126,8 @@ function renderPopupImage (title, image, cloneNode) {
 
 //инициализация стартовых карточек массива
 initialCards.forEach (item => {
-  addPlace (item.name, item.link);
+  const place = addPlace (item.name, item.link);
+  renderPlaceItemStart (place);
 });
 
 // Слушатели событий popup для user
