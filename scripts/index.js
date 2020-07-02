@@ -20,6 +20,9 @@ const popupImage = document.querySelector('.popup_image-places');
 const popupImageCloseButton = document.querySelector('.popup__close-button_image-places');
 const popupImageOverlay = document.querySelector('.popup__overlay_image-places');
 
+const placesTemplate = document.querySelector('#places-template').content;
+const placesCardList = document.querySelector('.places__cards');
+
 const initialCards = [
   {
     name: 'Селигер',
@@ -71,8 +74,6 @@ formSubmitHandlerPlaces = evt => {
 
 // Функция добавления карточек
 function addPlace (title, image) {
-  const placesTemplate = document.querySelector('#places-template').content;
-  const placesCardList = document.querySelector('.places__cards');
   const placesItem = placesTemplate.cloneNode(true);
   
   placesItem.querySelector('.places__title').textContent = title;
