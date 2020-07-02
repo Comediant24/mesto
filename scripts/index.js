@@ -19,6 +19,8 @@ const popupPlacesImageInput = document.querySelector('.popup__input_type_place-i
 const popupImage = document.querySelector('.popup_image-places');
 const popupImageCloseButton = document.querySelector('.popup__close-button_image-places');
 const popupImageOverlay = document.querySelector('.popup__overlay_image-places');
+const popupImagePlace = document.querySelector('.popup__places-image');
+const popupImageTitle = document.querySelector('.popup__places-title');
 
 const placesTemplate = document.querySelector('#places-template').content;
 const placesCardList = document.querySelector('.places__cards');
@@ -117,9 +119,9 @@ function deletePlaceItem (cloneNode) {
 // Функция попапа Image
 function renderPopupImage (title, image, cloneNode) {
   cloneNode.querySelector('.places__image').addEventListener('click', () => {
-    document.querySelector('.popup__places-image').src = image;
-    document.querySelector('.popup__places-image').alt = `${title}. Красивые места России.`;
-    document.querySelector('.popup__places-title').textContent = title;
+    popupImagePlace.src = image;
+    popupImagePlace.alt = `${title}. Красивые места России.`;
+    popupImageTitle.textContent = title;
     popupToggle(popupImage);
   });
 };
