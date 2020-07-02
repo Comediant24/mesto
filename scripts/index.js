@@ -103,16 +103,16 @@ function addPlace (title, image) {
 // Функция лайка places
 function likePlaceItem (cloneNode) {
   cloneNode.querySelector('.places__button-like').addEventListener('click', (evt) => {
-    const eventTarget = evt.target;
-    eventTarget.classList.toggle('places__button-like_enabled');
+    const placesItemLike = evt.target;
+    placesItemLike.classList.toggle('places__button-like_enabled');
   });
 }
 
 // Функция удаления карточки
 function deletePlaceItem (cloneNode) {
   cloneNode.querySelector('.places__button-delete').addEventListener('click', (evt) => {
-    const placesItem = evt.target.closest('.places__items');
-    placesItem.remove();
+    const placesItemDelete = evt.target.closest('.places__items');
+    placesItemDelete.remove();
   });
 };
 
