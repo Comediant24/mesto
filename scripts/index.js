@@ -47,11 +47,6 @@ const initialCards = [
   }
 ];
 
-//инициализация стартовых карточек массива
-initialCards.forEach (item => {
-  addPlace (item.name, item.link);
-});
-
 // Функция переключатель класса у popup
 popupToggle = popup => {
   popup.classList.toggle('popup_opened');
@@ -87,7 +82,7 @@ function addPlace (title, image) {
   likePlacesItem (placesItem);
   deletePlacesItem (placesItem);
   renderPopupImage (title, image, placesItem);
-
+  
   placesCardList.prepend(placesItem);  
 }
 
@@ -116,6 +111,11 @@ function renderPopupImage (title, image, cloneNode) {
     popupToggle(popupImage);
   });
 };
+
+//инициализация стартовых карточек массива
+initialCards.forEach (item => {
+  addPlace (item.name, item.link);
+});
 
 // Слушатели событий popup для user
 editProfileButton.addEventListener('click', () => {
