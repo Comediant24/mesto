@@ -68,7 +68,7 @@ const formSubmitHandlerProfile = evt => {
 // Функция для отправки введенной информации places
 const formSubmitHandlerPlaces = evt => {
   evt.preventDefault();
-  const place = addPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);  
+  const place = createPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);  
   popupPlacesNameInput.value = '';
   popupPlacesImageInput.value = '';
   renderPlaceItemNew (place);
@@ -83,21 +83,6 @@ function renderPlaceItemNew (item) {
 // Функция добавления стартовых карточек попорядку
 function renderPlaceItemStart (item) {
   placesCardList.append(item);
-}
-
-// Функция добавления карточек
-function addPlace (title, image) {
-  const placeItem = placesTemplate.cloneNode(true);
-  
-  placeItem.querySelector('.places__title').textContent = title;
-  placeItem.querySelector('.places__image').src = image;
-  placeItem.querySelector('.places__image').alt = `${title}. Красивые места России.`;
-  
-  likePlaceItem (placeItem);
-  deletePlaceItem (placeItem);
-  renderPopupImage (title, image, placeItem);
-  
-  return placeItem;
 }
 
 // Функция лайка places
@@ -126,9 +111,24 @@ function renderPopupImage (title, image, cloneNode) {
   });
 }
 
+// Функция добавления карточек
+function createPlace (title, image) {
+  const placeItem = placesTemplate.cloneNode(true);
+  
+  placeItem.querySelector('.places__title').textContent = title;
+  placeItem.querySelector('.places__image').src = image;
+  placeItem.querySelector('.places__image').alt = `${title}. Красивые места России.`;
+  
+  likePlaceItem (placeItem);
+  deletePlaceItem (placeItem);
+  renderPopupImage (title, image, placeItem);
+  
+  return placeItem;
+}
+
 //инициализация стартовых карточек массива
 initialCards.forEach (item => {
-  const place = addPlace (item.name, item.link);
+  const place = createPlace (item.name, item.link);
   renderPlaceItemStart (place);
 });
 
