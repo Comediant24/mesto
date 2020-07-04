@@ -119,9 +119,8 @@ function renderPlaceItemStart (item) {
 // Функция для отправки введенной информации places
 const formSubmitHandlerPlaces = evt => {
   evt.preventDefault();
-  const place = createPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);  
-  popupPlacesNameInput.value = '';
-  popupPlacesImageInput.value = '';
+  const place = createPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);
+  popupPlacesForm.reset()
   renderPlaceItemNew (place);
   popupToggle (popupPlaces);
 };
