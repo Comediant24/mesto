@@ -65,26 +65,6 @@ const formSubmitHandlerProfile = evt => {
   popupToggle (popupProfile);
 };
 
-// Функция для отправки введенной информации places
-const formSubmitHandlerPlaces = evt => {
-  evt.preventDefault();
-  const place = createPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);  
-  popupPlacesNameInput.value = '';
-  popupPlacesImageInput.value = '';
-  renderPlaceItemNew (place);
-  popupToggle (popupPlaces);
-};
-
-// Функция добавления новых карточек в начало
-function renderPlaceItemNew (item) {
-  placesCardList.prepend(item);
-}
-
-// Функция добавления стартовых карточек попорядку
-function renderPlaceItemStart (item) {
-  placesCardList.append(item);
-}
-
 // Функция лайка places
 function likePlaceItem (cloneNode) {
   cloneNode.querySelector('.places__button-like').addEventListener('click', (evt) => {
@@ -111,7 +91,7 @@ function renderPopupImage (title, image, cloneNode) {
   });
 }
 
-// Функция добавления карточек
+// Функция создания карточек
 function createPlace (title, image) {
   const placeItem = placesTemplate.cloneNode(true);
   
@@ -125,6 +105,26 @@ function createPlace (title, image) {
   
   return placeItem;
 }
+
+// Функция добавления новых карточек в начало
+function renderPlaceItemNew (item) {
+  placesCardList.prepend(item);
+}
+
+// Функция добавления стартовых карточек попорядку
+function renderPlaceItemStart (item) {
+  placesCardList.append(item);
+}
+
+// Функция для отправки введенной информации places
+const formSubmitHandlerPlaces = evt => {
+  evt.preventDefault();
+  const place = createPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);  
+  popupPlacesNameInput.value = '';
+  popupPlacesImageInput.value = '';
+  renderPlaceItemNew (place);
+  popupToggle (popupPlaces);
+};
 
 //инициализация стартовых карточек массива
 initialCards.forEach (item => {
