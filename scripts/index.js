@@ -53,27 +53,27 @@ const initialCards = [
 ];
 
 // Функция переключатель класса у popup
-popupToggle = popup => {
+const popupToggle = popup => {
   popup.classList.toggle('popup_opened');
-}
+};
 
 // Функция для отправки введенной информации profile
-formSubmitHandlerProfile = evt => {
+const formSubmitHandlerProfile = evt => {
   evt.preventDefault();
   nameProfileUser.textContent = popupProfileNameInput.value;
   jobProfileUser.textContent = popupProfileJobInput.value;
   popupToggle (popupProfile);
-}
+};
 
 // Функция для отправки введенной информации places
-formSubmitHandlerPlaces = evt => {
+const formSubmitHandlerPlaces = evt => {
   evt.preventDefault();
   const place = addPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);  
   popupPlacesNameInput.value = '';
   popupPlacesImageInput.value = '';
   renderPlaceItemNew (place);
   popupToggle (popupPlaces);
-}
+};
 
 // Функция добавления новых карточек в начало
 function renderPlaceItemNew (item) {
@@ -83,7 +83,7 @@ function renderPlaceItemNew (item) {
 // Функция добавления стартовых карточек попорядку
 function renderPlaceItemStart (item) {
   placesCardList.append(item);
-};
+}
 
 // Функция добавления карточек
 function addPlace (title, image) {
@@ -114,7 +114,7 @@ function deletePlaceItem (cloneNode) {
     const placesItemDelete = evt.target.closest('.places__items');
     placesItemDelete.remove();
   });
-};
+}
 
 // Функция попапа Image
 function renderPopupImage (title, image, cloneNode) {
@@ -124,7 +124,7 @@ function renderPopupImage (title, image, cloneNode) {
     popupImageTitle.textContent = title;
     popupToggle(popupImage);
   });
-};
+}
 
 //инициализация стартовых карточек массива
 initialCards.forEach (item => {
