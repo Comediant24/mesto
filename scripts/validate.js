@@ -1,6 +1,6 @@
 enableValidation({
   formSelector: '.popup__form',
-  // inputSelector: '.popup__input',
+  inputSelector: '.popup__input',
   // submitButtonSelector: '.popup__save-button',
   // inactiveButtonClass: 'popup__save-button_disabled',
   inputErrorClass: 'popup__input_type_error',
@@ -8,34 +8,43 @@ enableValidation({
 });
 
 function enableValidation ( propertiesForm ) {
-  const formElements = Array.from(document.querySelectorAll(propertiesForm.formSelector));
+  const formList = Array.from(document.querySelectorAll(propertiesForm.formSelector));
   
-  formElements.forEach( form => {
-    form.addEventListener('submit', evt => {
+  formList.forEach( formElement => {
+    formElement.addEventListener('submit', evt => {
       evt.preventDefault();
-    })
-    form.addEventListener('input', (evt) => {
-      isValid(evt, propertiesForm);
-    })
-  })
+    });
+
+    setEventListeners(formElement, propertiesForm);
+  });
 }
 
-function isValid (evt, propertiesForm) {
-  if (!evt.target.validity.valid) {
-    showInputError(evt, propertiesForm, evt.target.validationMessage);
+function setEventListeners (formElement, propertiesForm) {
+
+  const inputList = Array.from(formElement.querySelectorAll(propertiesForm.inputSelector));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', () => {
+      isValid(formElement, inputElement, propertiesForm)
+    });
+  });
+}
+
+function isValid (input, propertiesForm) {
+  if (!input.validity.valid) {
+    showInputError(input, input.validationMessage, propertiesForm);
   } else {
-    hideInputError(evt, propertiesForm);
+    hideInputError(input, propertiesForm);
   }
 }
 
-function showInputError (evt, propertiesForm, errorMessage) {
-  evt.target.classList.add(propertiesForm.inputErrorClass);
-  evt.target.nextElementSibling.textContent = errorMessage;
-  evt.target.nextElementSibling.classList.add(propertiesForm.errorClass);
+function showInputError (input, errorMessage, propertiesForm) {
+  input.classList.add(propertiesForm.inputErrorClass);
+  input.nextElementSibling.textContent = errorMessage;
+  input.nextElementSibling.classList.add(propertiesForm.errorClass);
 }
 
-function hideInputError (evt, propertiesForm) {
-  evt.target.classList.remove(propertiesForm.inputErrorClass);
-  evt.target.nextElementSibling.textContent = '';
-  evt.target.nextElementSibling.classList.remove(propertiesForm.errorClass);
+function hideInputError (input, propertiesForm) {
+  input.classList.remove(propertiesForm.inputErrorClass);
+  input.nextElementSibling.textContent = '';
+  input.nextElementSibling.classList.remove(propertiesForm.errorClass);
 };
