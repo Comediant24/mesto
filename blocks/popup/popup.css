@@ -9,9 +9,8 @@
 @import url(./__places/popup__places.css);
 @import url(./__places-image/places-image.css);
 @import url(./__places-title/popup__places-title.css);
-@import url(./__input-error/popup__input-error.css);
 @import url(./__input/_type/popup__input_type_error.css);
-@import url(./__error/poup__error.css);
+@import url(./__error/popup__error.css);
 @import url(./__error/_visible/popup__error_visible.css);
 
 .popup {
