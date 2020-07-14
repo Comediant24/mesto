@@ -1,6 +1,6 @@
 enableValidation({
   formSelector: '.popup__form',
-  inputSelector: '.popup__input',
+  // inputSelector: '.popup__input',
   // submitButtonSelector: '.popup__save-button',
   // inactiveButtonClass: 'popup__save-button_disabled',
   inputErrorClass: 'popup__input_type_error',
@@ -22,18 +22,20 @@ function enableValidation ( propertiesForm ) {
 
 function isValid (evt, propertiesForm) {
   if (!evt.target.validity.valid) {
-    showInputError(evt, propertiesForm);
+    showInputError(evt, propertiesForm, evt.target.validationMessage);
   } else {
     hideInputError(evt, propertiesForm);
   }
 }
 
-function showInputError (evt, propertiesForm) {
+function showInputError (evt, propertiesForm, errorMessage) {
   evt.target.classList.add(propertiesForm.inputErrorClass);
+  evt.target.nextElementSibling.textContent = errorMessage;
   evt.target.nextElementSibling.classList.add(propertiesForm.errorClass);
 }
 
 function hideInputError (evt, propertiesForm) {
   evt.target.classList.remove(propertiesForm.inputErrorClass);
+  evt.target.nextElementSibling.textContent = '';
   evt.target.nextElementSibling.classList.remove(propertiesForm.errorClass);
 };
