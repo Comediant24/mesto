@@ -7,6 +7,7 @@ const jobProfileUser = document.querySelector('.profile__user-job');
 const popupProfileForm = document.querySelector('.popup__form_edit-profile');
 const popupProfileNameInput = document.querySelector('.popup__input_type_profile-name');
 const popupProfileJobInput = document.querySelector('.popup__input_type_profile-status');
+const popupProfileSaveButton = popupProfileForm.querySelector('.popup__save-button');
 
 const popupPlaces = document.querySelector('.popup_add-places');
 const addPlacesButton = document.querySelector('.profile__add-button');
@@ -15,6 +16,7 @@ const popupPlacesOverlay = document.querySelector('.popup__overlay_add-places');
 const popupPlacesForm = document.querySelector('.popup__form_add-places');
 const popupPlacesNameInput = document.querySelector('.popup__input_type_places-name');
 const popupPlacesImageInput = document.querySelector('.popup__input_type_place-image');
+const popupPlacesSaveButton = popupPlacesForm.querySelector('.popup__save-button');
 
 const popupImage = document.querySelector('.popup_image-places');
 const popupImageCloseButton = document.querySelector('.popup__close-button_image-places');
@@ -131,7 +133,7 @@ function renderPlaceItemStart (item) {
 const formSubmitHandlerPlaces = evt => {
   evt.preventDefault();
   const place = createPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);
-  popupPlacesForm.reset()
+  popupPlacesForm.reset();
   renderPlaceItemNew (place);
   popupToggle (popupPlaces);
 };
@@ -146,14 +148,24 @@ initialCards.forEach (item => {
 editProfileButton.addEventListener('click', () => {
   popupProfileNameInput.value = nameProfileUser.textContent;
   popupProfileJobInput.value = jobProfileUser.textContent;
-  popupToggle(popupProfile)
+  const inputsProfile = Array.from(popupProfileForm.querySelectorAll('.popup__input'));
+  inputsProfile.forEach( input => {
+    hideInputError (input, propertiesForm);
+  });
+  toggleButtonState(inputsProfile, popupProfileSaveButton, propertiesForm);
+  popupToggle(popupProfile);
 });
 popupProfileCloseButton.addEventListener('click', () => popupToggle(popupProfile));
 popupProfileOverlay.addEventListener('click', () => popupToggle(popupProfile));
 popupProfileForm.addEventListener('submit', formSubmitHandlerProfile);
 
 // Слушатели событий popup для places
-addPlacesButton.addEventListener('click', () => popupToggle(popupPlaces));
+addPlacesButton.addEventListener('click', () => {
+  popupPlacesForm.reset(); // сброс содержимого формы перед открытием
+  const inputsPlaces = Array.from(popupPlacesForm.querySelectorAll('.popup__input'));
+  toggleButtonState(inputsPlaces, popupPlacesSaveButton, propertiesForm);
+  popupToggle(popupPlaces);
+});
 popupPlacesCloseButton.addEventListener('click', () => popupToggle(popupPlaces));
 popupPlacesOverlay.addEventListener('click', () => popupToggle(popupPlaces));
 popupPlacesForm.addEventListener('submit', formSubmitHandlerPlaces);
