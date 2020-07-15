@@ -65,9 +65,21 @@ const propertiesForm = {
 
 enableValidation(propertiesForm);
 
+// Функция закрытия Popup по escape
+const popupEscape = popup => {
+  if (popup.classList.contains('popup_opened')) {
+    document.addEventListener('keydown', (evt) => {
+      if (evt.key == 'Escape') {
+        popup.classList.remove('popup_opened');
+      }
+    })
+  }
+};
+
 // Функция переключатель класса у popup
 const popupToggle = popup => {
   popup.classList.toggle('popup_opened');
+  popupEscape(popup);
 };
 
 // Функция для отправки введенной информации profile
