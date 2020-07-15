@@ -64,20 +64,33 @@ const propertiesForm = {
 };
 
 // Функция закрытия Popup по escape
-const popupEscape = popup => {
-  if (popup.classList.contains('popup_opened')) {
-    document.addEventListener('keydown', (evt) => {
-      if (evt.key == 'Escape') {
-        popup.classList.remove('popup_opened');
-      }
-    })
+const popupEscape = evt => {
+  const popup = document.querySelector('.popup_opened');
+  if (evt.key == 'Escape') {
+    popupClose(popup);
   }
 };
 
-// Функция переключатель класса у popup
-const popupToggle = popup => {
-  popup.classList.toggle('popup_opened');
-  popupEscape(popup);
+// Функция добавления слушателя Escape
+const setCloseListeners = () => {
+  document.addEventListener('keydown', popupEscape);
+};
+
+// Функция удаления слушателя Escape
+const removeCloseListeners = () => {
+  document.removeEventListener('keydown', popupEscape);
+};
+
+// Функция добавления класса _opened
+const popupOpen = popup => {
+  popup.classList.add('popup_opened');
+  setCloseListeners ();
+};
+
+// Функция удаления класса _opened
+const popupClose = popup => {
+  popup.classList.remove('popup_opened');
+  removeCloseListeners ();
 };
 
 // Функция для отправки введенной информации profile
@@ -85,7 +98,7 @@ const formSubmitHandlerProfile = evt => {
   evt.preventDefault();
   nameProfileUser.textContent = popupProfileNameInput.value;
   jobProfileUser.textContent = popupProfileJobInput.value;
-  popupToggle (popupProfile);
+  popupClose(popupProfile);
 };
 
 // Функция лайка places
@@ -110,7 +123,7 @@ const renderPopupImage = (title, image, cloneNode) => {
     popupImagePlace.src = image;
     popupImagePlace.alt = `${title}. Красивые места России.`;
     popupImageTitle.textContent = title;
-    popupToggle(popupImage);
+    popupOpen(popupImage);
   });
 };
 
@@ -145,7 +158,7 @@ const formSubmitHandlerPlaces = evt => {
   const place = createPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);
   popupPlacesForm.reset();
   renderPlaceItemNew (place);
-  popupToggle (popupPlaces);
+  popupClose(popupPlaces);
 };
 
 //инициализация стартовых карточек массива
@@ -163,10 +176,10 @@ editProfileButton.addEventListener('click', () => {
     hideInputError (input, propertiesForm);
   });
   toggleButtonState(inputsProfile, popupProfileSaveButton, propertiesForm);
-  popupToggle(popupProfile);
+  popupOpen(popupProfile);
 });
-popupProfileCloseButton.addEventListener('click', () => popupToggle(popupProfile));
-popupProfileOverlay.addEventListener('click', () => popupToggle(popupProfile));
+popupProfileCloseButton.addEventListener('click', () => popupClose(popupProfile));
+popupProfileOverlay.addEventListener('click', () => popupClose(popupProfile));
 popupProfileForm.addEventListener('submit', formSubmitHandlerProfile);
 
 // Слушатели событий popup для places
@@ -174,14 +187,14 @@ addPlacesButton.addEventListener('click', () => {
   popupPlacesForm.reset();
   const inputsPlaces = Array.from(popupPlacesForm.querySelectorAll('.popup__input'));
   toggleButtonState(inputsPlaces, popupPlacesSaveButton, propertiesForm);
-  popupToggle(popupPlaces);
+  popupOpen(popupPlaces);
 });
-popupPlacesCloseButton.addEventListener('click', () => popupToggle(popupPlaces));
-popupPlacesOverlay.addEventListener('click', () => popupToggle(popupPlaces));
+popupPlacesCloseButton.addEventListener('click', () => popupClose(popupPlaces));
+popupPlacesOverlay.addEventListener('click', () => popupClose(popupPlaces));
 popupPlacesForm.addEventListener('submit', formSubmitHandlerPlaces);
 
 // Слушатели событий popup для popupImage
-popupImageOverlay.addEventListener('click', () => popupToggle(popupImage));
-popupImageCloseButton.addEventListener('click', () => popupToggle(popupImage));
+popupImageOverlay.addEventListener('click', () => popupClose(popupImage));
+popupImageCloseButton.addEventListener('click', () => popupClose(popupImage));
 
 enableValidation(propertiesForm);
