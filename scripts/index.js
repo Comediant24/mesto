@@ -63,8 +63,6 @@ const propertiesForm = {
   errorClass: 'popup__error_visible',
 };
 
-enableValidation(propertiesForm);
-
 // Функция закрытия Popup по escape
 const popupEscape = popup => {
   if (popup.classList.contains('popup_opened')) {
@@ -91,33 +89,33 @@ const formSubmitHandlerProfile = evt => {
 };
 
 // Функция лайка places
-function likePlaceItem (cloneNode) {
+const likePlaceItem = cloneNode => {
   cloneNode.querySelector('.places__button-like').addEventListener('click', (evt) => {
     const placesItemLike = evt.target;
     placesItemLike.classList.toggle('places__button-like_enabled');
   });
-}
+};
 
 // Функция удаления карточки
-function deletePlaceItem (cloneNode) {
+const deletePlaceItem = cloneNode => {
   cloneNode.querySelector('.places__button-delete').addEventListener('click', (evt) => {
     const placesItemDelete = evt.target.closest('.places__items');
     placesItemDelete.remove();
   });
-}
+};
 
 // Функция попапа Image
-function renderPopupImage (title, image, cloneNode) {
+const renderPopupImage = (title, image, cloneNode) => {
   cloneNode.querySelector('.places__image').addEventListener('click', () => {
     popupImagePlace.src = image;
     popupImagePlace.alt = `${title}. Красивые места России.`;
     popupImageTitle.textContent = title;
     popupToggle(popupImage);
   });
-}
+};
 
 // Функция создания карточек
-function createPlace (title, image) {
+const createPlace = (title, image) => {
   const placeItem = placesTemplate.cloneNode(true);
   
   placeItem.querySelector('.places__title').textContent = title;
@@ -129,17 +127,17 @@ function createPlace (title, image) {
   renderPopupImage (title, image, placeItem);
   
   return placeItem;
-}
+};
 
 // Функция добавления новых карточек в начало
-function renderPlaceItemNew (item) {
+const renderPlaceItemNew = item => {
   placesCardList.prepend(item);
-}
+};
 
 // Функция добавления стартовых карточек попорядку
-function renderPlaceItemStart (item) {
+const renderPlaceItemStart = item => {
   placesCardList.append(item);
-}
+};
 
 // Функция для отправки введенной информации places
 const formSubmitHandlerPlaces = evt => {
@@ -173,7 +171,7 @@ popupProfileForm.addEventListener('submit', formSubmitHandlerProfile);
 
 // Слушатели событий popup для places
 addPlacesButton.addEventListener('click', () => {
-  popupPlacesForm.reset(); // сброс содержимого формы перед открытием
+  popupPlacesForm.reset();
   const inputsPlaces = Array.from(popupPlacesForm.querySelectorAll('.popup__input'));
   toggleButtonState(inputsPlaces, popupPlacesSaveButton, propertiesForm);
   popupToggle(popupPlaces);
@@ -185,3 +183,5 @@ popupPlacesForm.addEventListener('submit', formSubmitHandlerPlaces);
 // Слушатели событий popup для popupImage
 popupImageOverlay.addEventListener('click', () => popupToggle(popupImage));
 popupImageCloseButton.addEventListener('click', () => popupToggle(popupImage));
+
+enableValidation(propertiesForm);
