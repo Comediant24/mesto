@@ -130,10 +130,11 @@ const renderPopupImage = (title, image, cloneNode) => {
 // Функция создания карточек
 const createPlace = (title, image) => {
   const placeItem = placesTemplate.cloneNode(true);
-  
+  const placeImage = placeItem.querySelector('.places__image');
+
   placeItem.querySelector('.places__title').textContent = title;
-  placeItem.querySelector('.places__image').src = image;
-  placeItem.querySelector('.places__image').alt = `${title}. Красивые места России.`;
+  placeImage.src = image;
+  placeImage.alt = `${title}. Красивые места России.`;
   
   likePlaceItem (placeItem);
   deletePlaceItem (placeItem);
