@@ -1,3 +1,4 @@
+import Card from './card.js';
 const popupProfile = document.querySelector('.popup_edit-profile');
 const editProfileButton = document.querySelector('.profile__user-edit-button');
 const popupProfileCloseButton = document.querySelector('.popup__close-button_edit-profile');
@@ -162,11 +163,13 @@ const formSubmitHandlerPlaces = evt => {
   popupClose(popupPlaces);
 };
 
-//инициализация стартовых карточек массива
+//инициализация стартовых карточек массива через класс Card
 initialCards.forEach (item => {
-  const place = createPlace (item.name, item.link);
-  renderPlaceItemStart (place);
-});
+  const card = new Card (item, '#places-template');
+
+  const cardElement = card.generateCard();
+  placesCardList.append(cardElement);
+})
 
 // Слушатели событий popup для user
 editProfileButton.addEventListener('click', () => {
