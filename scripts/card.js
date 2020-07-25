@@ -37,9 +37,9 @@ export default class Card {
   _setEventListeners() {
     this._element.querySelector('.places__button-like').addEventListener('click', this._likePlaceItem);
     this._element.querySelector('.places__button-delete').addEventListener('click', this._deletePlaceItem);
-    this._element.querySelector('.places__image').addEventListener('click', () => {
-      this._renderPopupImage();
-    });
+    // this._element.querySelector('.places__image').addEventListener('click', () => {
+    //   this._renderPopupImage();
+    // });
   };
 
   generateCard() {

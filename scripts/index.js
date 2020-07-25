@@ -1,4 +1,5 @@
 import Card from './card.js';
+
 const popupProfile = document.querySelector('.popup_edit-profile');
 const editProfileButton = document.querySelector('.profile__user-edit-button');
 const popupProfileCloseButton = document.querySelector('.popup__close-button_edit-profile');
@@ -102,21 +103,21 @@ const formSubmitHandlerProfile = evt => {
   popupClose(popupProfile);
 };
 
-// Функция лайка places
-const likePlaceItem = cloneNode => {
-  cloneNode.querySelector('.places__button-like').addEventListener('click', (evt) => {
-    const placesItemLike = evt.target;
-    placesItemLike.classList.toggle('places__button-like_enabled');
-  });
-};
+// // Функция лайка places
+// const likePlaceItem = cloneNode => {
+//   cloneNode.querySelector('.places__button-like').addEventListener('click', (evt) => {
+//     const placesItemLike = evt.target;
+//     placesItemLike.classList.toggle('places__button-like_enabled');
+//   });
+// };
 
-// Функция удаления карточки
-const deletePlaceItem = cloneNode => {
-  cloneNode.querySelector('.places__button-delete').addEventListener('click', (evt) => {
-    const placesItemDelete = evt.target.closest('.places__items');
-    placesItemDelete.remove();
-  });
-};
+// // Функция удаления карточки
+// const deletePlaceItem = cloneNode => {
+//   cloneNode.querySelector('.places__button-delete').addEventListener('click', (evt) => {
+//     const placesItemDelete = evt.target.closest('.places__items');
+//     placesItemDelete.remove();
+//   });
+// };
 
 // Функция попапа Image
 const renderPopupImage = (title, image, cloneNode) => {
@@ -130,15 +131,14 @@ const renderPopupImage = (title, image, cloneNode) => {
 
 // Функция создания карточек
 const createPlace = (title, image) => {
-  const placeItem = placesTemplate.cloneNode(true);
-  const placeImage = placeItem.querySelector('.places__image');
+  const newPlace = {
+    name: title,
+    link: image
+  }
+  const placeCard = new Card (newPlace, '#places-template');
+  const placeItem = placeCard.generateCard();
 
-  placeItem.querySelector('.places__title').textContent = title;
-  placeImage.src = image;
-  placeImage.alt = `${title}. Красивые места России.`;
-  
-  likePlaceItem (placeItem);
-  deletePlaceItem (placeItem);
+
   renderPopupImage (title, image, placeItem);
   
   return placeItem;
@@ -165,10 +165,10 @@ const formSubmitHandlerPlaces = evt => {
 
 //инициализация стартовых карточек массива через класс Card
 initialCards.forEach (item => {
-  const card = new Card (item, '#places-template');
+  const placeCard = new Card (item, '#places-template');
 
-  const cardElement = card.generateCard();
-  placesCardList.append(cardElement);
+  const placeItem = placeCard.generateCard();
+  placesCardList.append(placeItem);
 })
 
 // Слушатели событий popup для user
