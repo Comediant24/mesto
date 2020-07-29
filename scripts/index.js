@@ -1,4 +1,4 @@
-import Card from './card.js';
+import Card from './Card.js';
 
 const popupProfile = document.querySelector('.popup_edit-profile');
 const editProfileButton = document.querySelector('.profile__user-edit-button');
@@ -119,15 +119,15 @@ const formSubmitHandlerProfile = evt => {
 //   });
 // };
 
-// Функция попапа Image
-const renderPopupImage = (title, image, cloneNode) => {
-  cloneNode.querySelector('.places__image').addEventListener('click', () => {
-    popupImagePlace.src = image;
-    popupImagePlace.alt = `${title}. Красивые места России.`;
-    popupImageTitle.textContent = title;
-    popupOpen(popupImage);
-  });
-};
+// // Функция попапа Image
+// const renderPopupImage = (title, image, cloneNode) => {
+//   cloneNode.querySelector('.places__image').addEventListener('click', () => {
+//     popupImagePlace.src = image;
+//     popupImagePlace.alt = `${title}. Красивые места России.`;
+//     popupImageTitle.textContent = title;
+//     popupOpen(popupImage);
+//   });
+// };
 
 // Функция создания карточек
 const createPlace = (title, image) => {
@@ -137,9 +137,6 @@ const createPlace = (title, image) => {
   }
   const placeCard = new Card (newPlace, '#places-template');
   const placeItem = placeCard.generateCard();
-
-
-  renderPopupImage (title, image, placeItem);
   
   return placeItem;
 };
@@ -168,7 +165,7 @@ initialCards.forEach (item => {
   const placeCard = new Card (item, '#places-template');
 
   const placeItem = placeCard.generateCard();
-  placesCardList.append(placeItem);
+  renderPlaceItemStart(placeItem);
 })
 
 // Слушатели событий popup для user
