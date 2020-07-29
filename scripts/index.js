@@ -1,4 +1,5 @@
 import Card from './Card.js';
+import { initialCards } from './initialCards.js'
 
 const popupProfile = document.querySelector('.popup_edit-profile');
 const editProfileButton = document.querySelector('.profile__user-edit-button');
@@ -28,33 +29,6 @@ const popupImageTitle = document.querySelector('.popup__places-title');
 
 const placesTemplate = document.querySelector('#places-template').content;
 const placesCardList = document.querySelector('.places__cards');
-
-const initialCards = [
-  {
-    name: 'Селигер',
-    link: './images/seliger.jpg'
-  },
-  {
-    name: 'Сахалин',
-    link: './images/sahalin_134.jpg'
-  },
-  {
-    name: 'Эвенкия',
-    link: './images/plato-putarano.png'
-  },
-  {
-    name: 'Якутия',
-    link: './images/lensk-stolb.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: './images/baikal.jpg'
-  },
-  {
-    name: 'Красноярск',
-    link: './images/kras-stolb.jpg'
-  }
-];
 
 const propertiesForm = {
   formSelector: '.popup__form',
