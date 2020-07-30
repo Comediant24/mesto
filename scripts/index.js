@@ -1,4 +1,5 @@
 import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 import { initialCards } from './initialCards.js'
 
 const popupProfile = document.querySelector('.popup_edit-profile');
@@ -146,11 +147,13 @@ initialCards.forEach (item => {
 editProfileButton.addEventListener('click', () => {
   popupProfileNameInput.value = nameProfileUser.textContent;
   popupProfileJobInput.value = jobProfileUser.textContent;
-  const inputsProfile = Array.from(popupProfileForm.querySelectorAll('.popup__input'));
-  inputsProfile.forEach( input => {
-    hideInputError (input, propertiesForm);
-  });
-  toggleButtonState(inputsProfile, popupProfileSaveButton, propertiesForm);
+  
+  // const inputsProfile = Array.from(popupProfileForm.querySelectorAll('.popup__input'));
+  // inputsProfile.forEach( input => {
+  //   hideInputError (input, propertiesForm);
+  // });
+  // toggleButtonState(inputsProfile, popupProfileSaveButton, propertiesForm);
+
   popupOpen(popupProfile);
 });
 popupProfileCloseButton.addEventListener('click', () => popupClose(popupProfile));
@@ -160,8 +163,8 @@ popupProfileForm.addEventListener('submit', formSubmitHandlerProfile);
 // Слушатели событий popup для places
 addPlacesButton.addEventListener('click', () => {
   popupPlacesForm.reset();
-  const inputsPlaces = Array.from(popupPlacesForm.querySelectorAll('.popup__input'));
-  toggleButtonState(inputsPlaces, popupPlacesSaveButton, propertiesForm);
+  // const inputsPlaces = Array.from(popupPlacesForm.querySelectorAll('.popup__input'));
+  // toggleButtonState(inputsPlaces, popupPlacesSaveButton, propertiesForm);
   popupOpen(popupPlaces);
 });
 popupPlacesCloseButton.addEventListener('click', () => popupClose(popupPlaces));
@@ -172,4 +175,7 @@ popupPlacesForm.addEventListener('submit', formSubmitHandlerPlaces);
 popupImageOverlay.addEventListener('click', () => popupClose(popupImage));
 popupImageCloseButton.addEventListener('click', () => popupClose(popupImage));
 
-enableValidation(propertiesForm);
+//enableValidation(propertiesForm);
+
+const popupProfileFormTEMP = new FormValidator ('.popup__form_edit-profile', propertiesForm);
+popupProfileFormTEMP.enableValidation();
