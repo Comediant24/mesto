@@ -1,4 +1,4 @@
-export {popupImage, popupOpen, popupClose, };
+export {popupImage, popupOpen, popupClose};
 
 const popupImage = document.querySelector('.popup_image-places');
 
