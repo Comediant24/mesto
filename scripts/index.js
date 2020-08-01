@@ -1,6 +1,7 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
-import { initialCards } from './initialCards.js'
+import { initialCards } from './initialCards.js';
+import { popupOpen, popupClose } from './utils.js';
 
 const popupProfile = document.querySelector('.popup_edit-profile');
 const editProfileButton = document.querySelector('.profile__user-edit-button');
@@ -11,7 +12,6 @@ const jobProfileUser = document.querySelector('.profile__user-job');
 const popupProfileForm = document.querySelector('.popup__form_edit-profile');
 const popupProfileNameInput = document.querySelector('.popup__input_type_profile-name');
 const popupProfileJobInput = document.querySelector('.popup__input_type_profile-status');
-const popupProfileSaveButton = popupProfileForm.querySelector('.popup__save-button');
 
 const popupPlaces = document.querySelector('.popup_add-places');
 const addPlacesButton = document.querySelector('.profile__add-button');
@@ -20,15 +20,11 @@ const popupPlacesOverlay = document.querySelector('.popup__overlay_add-places');
 const popupPlacesForm = document.querySelector('.popup__form_add-places');
 const popupPlacesNameInput = document.querySelector('.popup__input_type_places-name');
 const popupPlacesImageInput = document.querySelector('.popup__input_type_place-image');
-const popupPlacesSaveButton = popupPlacesForm.querySelector('.popup__save-button');
 
 const popupImage = document.querySelector('.popup_image-places');
 const popupImageCloseButton = document.querySelector('.popup__close-button_image-places');
 const popupImageOverlay = document.querySelector('.popup__overlay_image-places');
-const popupImagePlace = document.querySelector('.popup__places-image');
-const popupImageTitle = document.querySelector('.popup__places-title');
 
-const placesTemplate = document.querySelector('#places-template').content;
 const placesCardList = document.querySelector('.places__cards');
 
 const propertiesForm = {
@@ -40,36 +36,6 @@ const propertiesForm = {
   errorClass: 'popup__error_visible',
 };
 
-// Функция закрытия Popup по escape
-const popupEscape = evt => {
-  const popup = document.querySelector('.popup_opened');
-  if (evt.key == 'Escape') {
-    popupClose(popup);
-  }
-};
-
-// Функция добавления слушателя Escape
-const setCloseListeners = () => {
-  document.addEventListener('keydown', popupEscape);
-};
-
-// Функция удаления слушателя Escape
-const removeCloseListeners = () => {
-  document.removeEventListener('keydown', popupEscape);
-};
-
-// Функция добавления класса _opened
-const popupOpen = popup => {
-  popup.classList.add('popup_opened');
-  setCloseListeners ();
-};
-
-// Функция удаления класса _opened
-const popupClose = popup => {
-  popup.classList.remove('popup_opened');
-  removeCloseListeners ();
-};
-
 // Функция для отправки введенной информации profile
 const formSubmitHandlerProfile = evt => {
   evt.preventDefault();
@@ -77,32 +43,6 @@ const formSubmitHandlerProfile = evt => {
   jobProfileUser.textContent = popupProfileJobInput.value;
   popupClose(popupProfile);
 };
-
-// // Функция лайка places
-// const likePlaceItem = cloneNode => {
-//   cloneNode.querySelector('.places__button-like').addEventListener('click', (evt) => {
-//     const placesItemLike = evt.target;
-//     placesItemLike.classList.toggle('places__button-like_enabled');
-//   });
-// };
-
-// // Функция удаления карточки
-// const deletePlaceItem = cloneNode => {
-//   cloneNode.querySelector('.places__button-delete').addEventListener('click', (evt) => {
-//     const placesItemDelete = evt.target.closest('.places__items');
-//     placesItemDelete.remove();
-//   });
-// };
-
-// // Функция попапа Image
-// const renderPopupImage = (title, image, cloneNode) => {
-//   cloneNode.querySelector('.places__image').addEventListener('click', () => {
-//     popupImagePlace.src = image;
-//     popupImagePlace.alt = `${title}. Красивые места России.`;
-//     popupImageTitle.textContent = title;
-//     popupOpen(popupImage);
-//   });
-// };
 
 // Функция создания карточек
 const createPlace = (title, image) => {
@@ -115,6 +55,12 @@ const createPlace = (title, image) => {
   
   return placeItem;
 };
+
+const popupProfileFormValidate = new FormValidator ('.popup__form_edit-profile', propertiesForm);
+popupProfileFormValidate.enableValidation();
+
+const popupPlaceFormValidate = new FormValidator ('.popup__form_add-places', propertiesForm);
+popupPlaceFormValidate.enableValidation();
 
 // Функция добавления новых карточек в начало
 const renderPlaceItemNew = item => {
@@ -148,12 +94,7 @@ editProfileButton.addEventListener('click', () => {
   popupProfileNameInput.value = nameProfileUser.textContent;
   popupProfileJobInput.value = jobProfileUser.textContent;
   
-  // const inputsProfile = Array.from(popupProfileForm.querySelectorAll('.popup__input'));
-  // inputsProfile.forEach( input => {
-  //   hideInputError (input, propertiesForm);
-  // });
-  // toggleButtonState(inputsProfile, popupProfileSaveButton, propertiesForm);
-
+  popupProfileFormValidate.resetForm();
   popupOpen(popupProfile);
 });
 popupProfileCloseButton.addEventListener('click', () => popupClose(popupProfile));
@@ -163,8 +104,8 @@ popupProfileForm.addEventListener('submit', formSubmitHandlerProfile);
 // Слушатели событий popup для places
 addPlacesButton.addEventListener('click', () => {
   popupPlacesForm.reset();
-  // const inputsPlaces = Array.from(popupPlacesForm.querySelectorAll('.popup__input'));
-  // toggleButtonState(inputsPlaces, popupPlacesSaveButton, propertiesForm);
+
+  popupPlaceFormValidate.resetForm();
   popupOpen(popupPlaces);
 });
 popupPlacesCloseButton.addEventListener('click', () => popupClose(popupPlaces));
@@ -174,8 +115,3 @@ popupPlacesForm.addEventListener('submit', formSubmitHandlerPlaces);
 // Слушатели событий popup для popupImage
 popupImageOverlay.addEventListener('click', () => popupClose(popupImage));
 popupImageCloseButton.addEventListener('click', () => popupClose(popupImage));
-
-//enableValidation(propertiesForm);
-
-const popupProfileFormTEMP = new FormValidator ('.popup__form_edit-profile', propertiesForm);
-popupProfileFormTEMP.enableValidation();
