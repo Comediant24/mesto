@@ -2,7 +2,7 @@
 export default class FormValidator {
 
   constructor (formSelector, data) {
-    this._form = formSelector; // Сюда должен передаваться класс конкретной формы
+    this._form = formSelector;
     this._input = data.inputSelector;
     this._submitButton = document.querySelector(this._form).querySelector(data.submitButtonSelector);
     this._inactive = data.inactiveButtonClass;
@@ -23,13 +23,13 @@ export default class FormValidator {
     input.nextElementSibling.classList.remove(this._errorClass);
   };
 
-  _hasInvalidInput = inputList => {
+  _hasInvalidInput (inputList) {
     return inputList.some(inputElement => {
       return !inputElement.validity.valid;
     })
   };
 
-  _toggleButtonState = (inputList, button) => {
+  _toggleButtonState (inputList, button) {
     if (this._hasInvalidInput(inputList)) {
       button.classList.add(this._inactive);
       button.disabled = true;
@@ -39,7 +39,7 @@ export default class FormValidator {
     }
   };
 
-  _isInputValid = (input) => {  
+  _isInputValid (input) {  
     if (!input.validity.valid) {
       this._showInputError(input);
     } else {
@@ -47,7 +47,7 @@ export default class FormValidator {
     }
   };
 
-  _setEventListeners = (form) => {
+  _setEventListeners () {
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._isInputValid(inputElement);
@@ -65,7 +65,7 @@ export default class FormValidator {
 
   enableValidation() {
     const formElement = document.querySelector(this._form);
-    this._setEventListeners(formElement);
+    this._setEventListeners();
     formElement.addEventListener('submit', evt => {
       evt.preventDefault();
     });
