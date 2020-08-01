@@ -28,7 +28,7 @@ export default class Card {
     placesItemDelete.remove();
   }
 
-  _renderPopupImage = () => {
+  _renderPopupImage() {
     popupImage.querySelector('.popup__places-image').src = this._img;
     popupImage.querySelector('.popup__places-image').alt = `${this._name}. Красивые места России.`;
     popupImage.querySelector('.popup__places-title').textContent = this._name;
@@ -39,7 +39,7 @@ export default class Card {
     this._element.querySelector('.places__button-like').addEventListener('click', this._likePlaceItem);
     this._element.querySelector('.places__button-delete').addEventListener('click', this._deletePlaceItem);
     this._element.querySelector('.places__image').addEventListener('click', this._renderPopupImage);
-  };
+  }
 
   generateCard() {
     this._element = this._getTemplate();
