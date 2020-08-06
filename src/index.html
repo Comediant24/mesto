@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Практическая работа №4 Юрия Байрамукова">
-  <meta name="keywords" content="практическая работа, я.практикум, html, css, javascript, responsive, adaptive, figma, js">
+  <meta name="keywords"
+    content="практическая работа, я.практикум, html, css, javascript, responsive, adaptive, figma, js">
   <meta name="author" content="Юрий Байрамуков">
   <title>Mesto Russia</title>
   <link rel="stylesheet" href="./pages/index.css">
 </head>
+
 <body class="root">
   <div class="page">
     <header class="header">
@@ -21,7 +24,8 @@
         <img class="profile__avatar" src="./images/user-image.jpg" alt="Аватар пользователя">
         <div class="profile__info">
           <h1 class="profile__user-name">Жак-Ив Кусто</h1>
-          <button class="button profile__user-edit-button" type="button" aria-label="Редактировать информацию пользователя"></button>
+          <button class="button profile__user-edit-button" type="button"
+            aria-label="Редактировать информацию пользователя"></button>
           <p class="profile__user-job">Исследователь океана</p>
         </div>
         <button class="button profile__add-button" type="button" aria-label="Добавить информацию"></button>
@@ -40,13 +44,16 @@
       <form class="popup__form popup__form_edit-profile" name="user-info" action="#" method="POST" novalidate>
         <h3 class="popup__title">Редактировать профиль</h3>
         <fieldset class="popup__input-container">
-          <input class="popup__input popup__input_type_profile-name" name="user-name" type="text" placeholder="Ваше имя" required minlength="2" maxlength="40" autocomplete="off">
+          <input class="popup__input popup__input_type_profile-name" name="user-name" type="text" placeholder="Ваше имя"
+            required minlength="2" maxlength="40" autocomplete="off">
           <span class="popup__error"></span>
-          <input class="popup__input popup__input_type_profile-status" name="user-job" type="text" placeholder="Профессия" required minlength="2" maxlength="200" autocomplete="off">
+          <input class="popup__input popup__input_type_profile-status" name="user-job" type="text"
+            placeholder="Профессия" required minlength="2" maxlength="200" autocomplete="off">
           <span class="popup__error"></span>
         </fieldset>
         <button class="button popup__save-button" type="submit">Сохранить</button>
-        <button class="button popup__close-button popup__close-button_edit-profile" type="button" aria-label="Закрыть окно"></button>
+        <button class="button popup__close-button popup__close-button_edit-profile" type="button"
+          aria-label="Закрыть окно"></button>
       </form>
     </section>
     <section class="popup popup_add-places">
@@ -54,13 +61,16 @@
       <form class="popup__form popup__form_add-places" name="places-add" action="#" method="POST" novalidate>
         <h3 class="popup__title">Новое место</h3>
         <fieldset class="popup__input-container">
-          <input class="popup__input popup__input_type_places-name" name="places-name" type="text" placeholder="Название" required minlength="1" maxlength="30" autocomplete="off">
+          <input class="popup__input popup__input_type_places-name" name="places-name" type="text"
+            placeholder="Название" required minlength="1" maxlength="30" autocomplete="off">
           <span class="popup__error"></span>
-          <input class="popup__input popup__input_type_place-image" name="places-image" type="url" placeholder="Ссылка на картинку" required autocomplete="off">
+          <input class="popup__input popup__input_type_place-image" name="places-image" type="url"
+            placeholder="Ссылка на картинку" required autocomplete="off">
           <span class="popup__error"></span>
         </fieldset>
         <button class="button popup__save-button popup__save-button_disabled" type="submit" disabled>Создать</button>
-        <button class="button popup__close-button popup__close-button__add-places" type="button" aria-label="Закрыть окно"></button>
+        <button class="button popup__close-button popup__close-button__add-places" type="button"
+          aria-label="Закрыть окно"></button>
       </form>
     </section>
     <section class="popup popup_image-places">
@@ -68,7 +78,8 @@
       <figure class="popup__places">
         <img src="#" alt="#" class="popup__places-image">
         <figcaption class="popup__places-title">Кучкудум</figcaption>
-        <button class="button popup__close-button popup__close-button_image-places" type="button" aria-label="Закрыть окно"></button>
+        <button class="button popup__close-button popup__close-button_image-places" type="button"
+          aria-label="Закрыть окно"></button>
       </figure>
     </section>
   </div>
@@ -87,4 +98,5 @@
   <script type='module' src="./scripts/index.js"></script>
 
 </body>
+
 </html>
