@@ -1,7 +1,10 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
-import { initialCards } from './initialCards.js';
-import { popupOpen, popupClose } from './utils.js';
+import initialCards from './initialCards.js';
+import {
+  popupOpen,
+  popupClose
+} from './utils.js';
 
 const popupProfile = document.querySelector('.popup_edit-profile');
 const editProfileButton = document.querySelector('.profile__user-edit-button');
@@ -50,16 +53,16 @@ const createPlace = (title, image) => {
     name: title,
     link: image
   }
-  const placeCard = new Card (newPlace, '#places-template');
+  const placeCard = new Card(newPlace, '#places-template');
   const placeItem = placeCard.generateCard();
-  
+
   return placeItem;
 };
 
-const popupProfileFormValidate = new FormValidator ('.popup__form_edit-profile', propertiesForm);
+const popupProfileFormValidate = new FormValidator('.popup__form_edit-profile', propertiesForm);
 popupProfileFormValidate.enableValidation();
 
-const popupPlaceFormValidate = new FormValidator ('.popup__form_add-places', propertiesForm);
+const popupPlaceFormValidate = new FormValidator('.popup__form_add-places', propertiesForm);
 popupPlaceFormValidate.enableValidation();
 
 // Функция добавления новых карточек в начало
@@ -75,15 +78,15 @@ const renderPlaceItemStart = item => {
 // Функция для отправки введенной информации places
 const formSubmitHandlerPlaces = evt => {
   evt.preventDefault();
-  const place = createPlace (popupPlacesNameInput.value, popupPlacesImageInput.value);
+  const place = createPlace(popupPlacesNameInput.value, popupPlacesImageInput.value);
   popupPlacesForm.reset();
-  renderPlaceItemNew (place);
+  renderPlaceItemNew(place);
   popupClose(popupPlaces);
 };
 
-//инициализация стартовых карточек массива через класс Card
-initialCards.forEach (item => {
-  const placeCard = new Card (item, '#places-template');
+// инициализация стартовых карточек массива через класс Card
+initialCards.forEach(item => {
+  const placeCard = new Card(item, '#places-template');
 
   const placeItem = placeCard.generateCard();
   renderPlaceItemStart(placeItem);
@@ -93,7 +96,7 @@ initialCards.forEach (item => {
 editProfileButton.addEventListener('click', () => {
   popupProfileNameInput.value = nameProfileUser.textContent;
   popupProfileJobInput.value = jobProfileUser.textContent;
-  
+
   popupProfileFormValidate.resetForm();
   popupOpen(popupProfile);
 });
