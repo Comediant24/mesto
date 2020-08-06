@@ -1,7 +1,7 @@
 import {
   popupImage,
   popupOpen
-} from './utils.js';
+} from '../scripts/utils.js';
 
 export default class Card {
 
