@@ -15,6 +15,7 @@
 			"props": false
 		}],
 		"import/extensions": ["error", "always"],
-		"quotes": ["error", "single"]
+		"quotes": ["error", "single"],
+		"no-useless-constructor": "off"
 	}
 }
