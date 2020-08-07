@@ -1,20 +1,16 @@
 import Card from '../components/Card.js';
+import Popup from '../components/Popup.js';
 import Section from '../components/Section.js'
 import FormValidator from '../components/FormValidator.js';
 import initialCards from './initialCards.js';
 import {
-  popupOpen,
   popupClose
 } from './utils.js';
+import PopupWithImage from '../components/PopupWithImage.js';
 
 const popupProfile = document.querySelector('.popup_edit-profile');
 const editProfileButton = document.querySelector('.profile__user-edit-button');
-const popupProfileCloseButton = document.querySelector(
-  '.popup__close-button_edit-profile'
-);
-const popupProfileOverlay = document.querySelector(
-  '.popup__overlay_edit-profile'
-);
+
 const nameProfileUser = document.querySelector('.profile__user-name');
 const jobProfileUser = document.querySelector('.profile__user-job');
 const popupProfileForm = document.querySelector('.popup__form_edit-profile');
@@ -27,10 +23,6 @@ const popupProfileJobInput = document.querySelector(
 
 const popupPlaces = document.querySelector('.popup_add-places');
 const addPlacesButton = document.querySelector('.profile__add-button');
-const popupPlacesCloseButton = document.querySelector(
-  '.popup__close-button__add-places'
-);
-const popupPlacesOverlay = document.querySelector('.popup__overlay_add-places');
 const popupPlacesForm = document.querySelector('.popup__form_add-places');
 const popupPlacesNameInput = document.querySelector(
   '.popup__input_type_places-name'
@@ -39,16 +31,7 @@ const popupPlacesImageInput = document.querySelector(
   '.popup__input_type_place-image'
 );
 
-const popupImage = document.querySelector('.popup_image-places');
-const popupImageCloseButton = document.querySelector(
-  '.popup__close-button_image-places'
-);
-const popupImageOverlay = document.querySelector(
-  '.popup__overlay_image-places'
-);
-
-const placesCardList = document.querySelector('.places__cards');
-
+// const placesCardList = document.querySelector('.places__cards');
 const propertiesForm = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -78,101 +61,62 @@ const popupPlaceFormValidate = new FormValidator(
 );
 popupPlaceFormValidate.enableValidation();
 
-// Функция создания карточек
-// const createPlace = (title, image) => {
-//   const newPlace = {
-//     name: title,
-//     link: image,
-//   };
-//   const placeCard = new Card(newPlace, '#places-template');
-//   const placeItem = placeCard.generateCard();
+// Слушатель картинки для карт
+const setImageListener = (cardItem) => {
+  document.querySelector('.places__image').addEventListener('click', () => {
+    const popupImage = new PopupWithImage('.popup_image-places');
+    popupImage.setEventListeners();
+    popupImage.open(cardItem.name, cardItem.link);
+  });
+}
 
-//   return placeItem;
-// };
-
-// Функция добавления новых карточек в начало
-// const renderPlaceItemNew = (item) => {
-//   placesCardList.prepend(item);
-// };
-
-// Функция для генерации новой карточки
-const newCard = (title, image) => {
-  const cardList = new Section({
-    items: [{
-      name: title,
-      link: image
-    }],
+// Функция создания новой карточки
+const cardSection = (items) => {
+  const card = new Section({
+    items: items,
     renderer: (cardItem) => {
       const placeCard = new Card(cardItem, '#places-template');
       const placeItem = placeCard.generateCard();
-      cardList.addItem(placeItem);
+      card.addItem(placeItem);
+      setImageListener(cardItem);
     }
   }, '.places__cards');
-  return cardList;
+  return card;
 }
 
 // Функция для отправки введенной информации places и создания новой карточки
 const formSubmitHandlerPlaces = (evt) => {
   evt.preventDefault();
-  const place = newCard(
-    popupPlacesNameInput.value,
-    popupPlacesImageInput.value
-  );
+  const newPlace = cardSection([{
+    name: popupPlacesNameInput.value,
+    link: popupPlacesImageInput.value
+  }]);
   popupPlacesForm.reset();
-  place.renderItems();
+  newPlace.renderItems();
   popupClose(popupPlaces);
 };
 
-
-// инициализация стартовых карточек массива через классы Card и Section
-const cardList = new Section({
-  items: initialCards,
-  renderer: (cardItem) => {
-    const placeCard = new Card(cardItem, '#places-template');
-    const placeItem = placeCard.generateCard();
-    cardList.addItem(placeItem)
-  }
-}, '.places__cards');
-
-cardList.renderItems();
-
-// Функция добавления стартовых карточек попорядку
-// const renderPlaceItemStart = (item) => {
-//   placesCardList.append(item);
-// };
-
-// initialCards.forEach((item) => {
-//   const placeCard = new Card(item, '#places-template');
-
-//   const placeItem = placeCard.generateCard();
-//   renderPlaceItemStart(placeItem);
-// });
+// Инициализация стартовых карточек массива через классы Card и Section
+const initialItemCard = cardSection(initialCards)
+initialItemCard.renderItems();
 
 // Слушатели событий popup для user
+const popupUser = new Popup('.popup_edit-profile')
 editProfileButton.addEventListener('click', () => {
   popupProfileNameInput.value = nameProfileUser.textContent;
   popupProfileJobInput.value = jobProfileUser.textContent;
-
   popupProfileFormValidate.resetForm();
-  popupOpen(popupProfile);
+  popupUser.open();
 });
-popupProfileCloseButton.addEventListener('click', () =>
-  popupClose(popupProfile)
-);
-popupProfileOverlay.addEventListener('click', () => popupClose(popupProfile));
+popupUser.setEventListeners();
 popupProfileForm.addEventListener('submit', formSubmitHandlerProfile);
 
 // Слушатели событий popup для places
+const popupPlacesTemp = new Popup('.popup_add-places');
 addPlacesButton.addEventListener('click', () => {
   popupPlacesForm.reset();
-
   popupPlaceFormValidate.resetForm();
-  popupOpen(popupPlaces);
+  popupPlacesTemp.open();
 });
-popupPlacesCloseButton.addEventListener('click', () => popupClose(popupPlaces));
-popupPlacesOverlay.addEventListener('click', () => popupClose(popupPlaces));
+popupPlacesTemp.setEventListeners();
 popupPlacesForm.addEventListener('submit', formSubmitHandlerPlaces);
-
-// Слушатели событий popup для popupImage
-popupImageOverlay.addEventListener('click', () => popupClose(popupImage));
-popupImageCloseButton.addEventListener('click', () => popupClose(popupImage));
