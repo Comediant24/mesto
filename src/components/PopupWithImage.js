@@ -11,8 +11,4 @@ export default class PopupWithImage extends Popup {
     this._popup.querySelector('.popup__places-title').textContent = name;
     super.open();
   }
-
-  setEventListeners() {
-    super.setEventListeners();
-  }
 }
