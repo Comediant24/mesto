@@ -5,11 +5,10 @@ import initialCards from './initialCards.js';
 
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
 const editProfileButton = document.querySelector('.profile__user-edit-button');
 
-const nameProfileUser = document.querySelector('.profile__user-name');
-const jobProfileUser = document.querySelector('.profile__user-job');
 const popupProfileNameInput = document.querySelector(
   '.popup__input_type_profile-name'
 );
@@ -29,11 +28,9 @@ const propertiesForm = {
 };
 
 // Слушатель картинки для карт
-const setImageListener = (cardItem) => {
-  document.querySelector('.places__image').addEventListener('click', () => {
-    const popupImage = new PopupWithImage('.popup_image-places');
-    popupImage.open(cardItem.name, cardItem.link);
-  });
+const handleCardClick = (name, img) => {
+  const popupImage = new PopupWithImage('.popup_image-places');
+  popupImage.open(name, img);
 };
 
 // Функция создания новой карточки
@@ -41,10 +38,9 @@ const cardSection = (items) => {
   const card = new Section({
       items: items,
       renderer: (cardItem) => {
-        const placeCard = new Card(cardItem, '#places-template');
+        const placeCard = new Card(cardItem, '#places-template', handleCardClick);
         const placeItem = placeCard.generateCard();
         card.addItem(placeItem);
-        setImageListener(cardItem);
       },
     },
     '.places__cards'
@@ -56,19 +52,26 @@ const cardSection = (items) => {
 const initialItemCard = cardSection(initialCards);
 initialItemCard.renderItems();
 
+const userInfo = new UserInfo({
+  userName: '.profile__user-name',
+  userJob: '.profile__user-job'
+});
+
 // Слушатели событий popup для user
 editProfileButton.addEventListener('click', () => {
+
   const popupUserInfoEdit = new PopupWithForm('.popup_edit-profile', (formData) => {
-    nameProfileUser.textContent = formData['user-name'];
-    jobProfileUser.textContent = formData['user-job'];
+    userInfo.setUserInfo(formData['user-name'], formData['user-job']);
+
+    // nameProfileUser.textContent = formData['user-name'];
+    // jobProfileUser.textContent = formData['user-job'];
   });
-
-  popupProfileNameInput.value = nameProfileUser.textContent;
-  popupProfileJobInput.value = jobProfileUser.textContent;
-
+  const userGetInfo = userInfo.getUserInfo();
+  popupProfileNameInput.value = userGetInfo.name;
+  popupProfileJobInput.value = userGetInfo.job;
   popupUserInfoEdit.open();
   const popupProfileFormValidate = new FormValidator(
-    '.popup__form',
+    '.popup__form_edit-profile',
     propertiesForm
   );
   popupProfileFormValidate.enableValidation();
@@ -86,10 +89,11 @@ addPlacesButton.addEventListener('click', () => {
   });
 
   popupPlaceAdd.open();
-  const popupProfileFormValidate = new FormValidator(
-    '.popup__form',
+
+  const popupPlaceFormValidate = new FormValidator(
+    '.popup__form_add-places',
     propertiesForm
   );
-  popupProfileFormValidate.enableValidation();
-  popupProfileFormValidate.resetForm();
+  popupPlaceFormValidate.enableValidation();
+  popupPlaceFormValidate.resetForm();
 })
