@@ -1,7 +1,7 @@
 export default class Card {
 
   constructor(data, cardSelector, handleCardClick) {
-
+    this._data = data;
     this._name = data.name;
     this._img = data.link;
     this._cardSelector = cardSelector;
@@ -14,7 +14,6 @@ export default class Card {
       .content
       .querySelector('.places__items')
       .cloneNode(true);
-
     return placesTemplate;
   }
 
@@ -31,17 +30,14 @@ export default class Card {
   _setEventListeners() {
     this._element.querySelector('.places__button-like').addEventListener('click', this._likePlaceItem);
     this._element.querySelector('.places__button-delete').addEventListener('click', this._deletePlaceItem);
-    this._element.querySelector('.places__image').addEventListener('click', () => this._handleCardClick(this._name, this._img));
+    this._element.querySelector('.places__image').addEventListener('click', () => this._handleCardClick(this._data));
   }
-
-
 
   generateCard() {
     this._element = this._getTemplate();
     this._setEventListeners();
     this._element.querySelector('.places__title').textContent = this._name;
     this._element.querySelector('.places__image').src = this._img;
-
     return this._element;
   }
 }
