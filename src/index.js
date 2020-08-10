@@ -1,30 +1,17 @@
-import Card from '../components/Card.js';
-import Section from '../components/Section.js';
-import FormValidator from '../components/FormValidator.js';
-import initialCards from './initialCards.js';
-import PopupWithImage from '../components/PopupWithImage.js';
-import PopupWithForm from '../components/PopupWithForm.js';
-import UserInfo from '../components/UserInfo.js';
-
-const editProfileButton = document.querySelector('.profile__user-edit-button');
-
-const popupProfileNameInput = document.querySelector(
-  '.popup__input_type_profile-name'
-);
-const popupProfileJobInput = document.querySelector(
-  '.popup__input_type_profile-status'
-);
-const addPlacesButton = document.querySelector('.profile__add-button');
-
-// const placesCardList = document.querySelector('.places__cards');
-const propertiesForm = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__save-button',
-  inactiveButtonClass: 'popup__save-button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible',
-};
+import Card from './components/Card.js';
+import Section from './components/Section.js';
+import FormValidator from './components/FormValidator.js';
+import initialCards from './utils/initialCards.js';
+import PopupWithImage from './components/PopupWithImage.js';
+import PopupWithForm from './components/PopupWithForm.js';
+import UserInfo from './components/UserInfo.js';
+import {
+  editProfileButton,
+  popupProfileNameInput,
+  popupProfileJobInput,
+  addPlacesButton,
+  propertiesForm
+} from './utils/constants.js'
 
 // Слушатель картинки для карт
 const handleCardClick = (data) => {
@@ -35,8 +22,7 @@ const handleCardClick = (data) => {
 
 // Функция создания новой карточки
 const cardSection = (items) => {
-  const card = new Section(
-    {
+  const card = new Section({
       items: items,
       renderer: (cardItem) => {
         const placeCard = new Card(
@@ -85,12 +71,10 @@ editProfileButton.addEventListener('click', () => {
 });
 
 const popupPlaceAdd = new PopupWithForm('.popup_add-places', (formData) => {
-  const newPlace = cardSection([
-    {
-      name: formData['places-name'],
-      link: formData['places-image'],
-    },
-  ]);
+  const newPlace = cardSection([{
+    name: formData['places-name'],
+    link: formData['places-image'],
+  }, ]);
   newPlace.renderItems();
 });
 popupPlaceAdd.setEventListeners();
