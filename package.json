@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf ./dist && webpack",
-    "dev": "webpack-dev-server --watch --open"
+    "dev": "webpack-dev-server --watch --open",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/Comediant24/mesto/issues"
   },
-  "homepage": "https://github.com/Comediant24/mesto#readme",
+  "homepage": "https://comediant24.github.io/mesto/",
   "devDependencies": {
     "@babel/core": "^7.11.1",
     "@babel/preset-env": "^7.11.0",
