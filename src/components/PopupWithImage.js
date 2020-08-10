@@ -5,10 +5,10 @@ export default class PopupWithImage extends Popup {
     super(popupSelector);
   }
 
-  open(name, link) {
-    this._popup.querySelector('.popup__places-image').src = link;
-    this._popup.querySelector('.popup__places-image').alt = `${name}. Красивые места России.`;
-    this._popup.querySelector('.popup__places-title').textContent = name;
+  open(data) {
+    this._popup.querySelector('.popup__places-image').src = data.link;
+    this._popup.querySelector('.popup__places-image').alt = `${data.name}. Красивые места России.`;
+    this._popup.querySelector('.popup__places-title').textContent = data.name;
     super.open();
   }
 }
