@@ -2,7 +2,6 @@ import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
 import initialCards from './initialCards.js';
-
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
@@ -28,17 +27,23 @@ const propertiesForm = {
 };
 
 // Слушатель картинки для карт
-const handleCardClick = (name, img) => {
+const handleCardClick = (data) => {
   const popupImage = new PopupWithImage('.popup_image-places');
-  popupImage.open(name, img);
+  popupImage.open(data);
+  popupImage.setEventListeners();
 };
 
 // Функция создания новой карточки
 const cardSection = (items) => {
-  const card = new Section({
+  const card = new Section(
+    {
       items: items,
       renderer: (cardItem) => {
-        const placeCard = new Card(cardItem, '#places-template', handleCardClick);
+        const placeCard = new Card(
+          cardItem,
+          '#places-template',
+          handleCardClick
+        );
         const placeItem = placeCard.generateCard();
         card.addItem(placeItem);
       },
@@ -54,18 +59,19 @@ initialItemCard.renderItems();
 
 const userInfo = new UserInfo({
   userName: '.profile__user-name',
-  userJob: '.profile__user-job'
+  userJob: '.profile__user-job',
 });
+
+const popupUserInfoEdit = new PopupWithForm(
+  '.popup_edit-profile',
+  (formData) => {
+    userInfo.setUserInfo(formData);
+  }
+);
+popupUserInfoEdit.setEventListeners();
 
 // Слушатели событий popup для user
 editProfileButton.addEventListener('click', () => {
-
-  const popupUserInfoEdit = new PopupWithForm('.popup_edit-profile', (formData) => {
-    userInfo.setUserInfo(formData['user-name'], formData['user-job']);
-
-    // nameProfileUser.textContent = formData['user-name'];
-    // jobProfileUser.textContent = formData['user-job'];
-  });
   const userGetInfo = userInfo.getUserInfo();
   popupProfileNameInput.value = userGetInfo.name;
   popupProfileJobInput.value = userGetInfo.job;
@@ -76,18 +82,21 @@ editProfileButton.addEventListener('click', () => {
   );
   popupProfileFormValidate.enableValidation();
   popupProfileFormValidate.resetForm();
-})
+});
+
+const popupPlaceAdd = new PopupWithForm('.popup_add-places', (formData) => {
+  const newPlace = cardSection([
+    {
+      name: formData['places-name'],
+      link: formData['places-image'],
+    },
+  ]);
+  newPlace.renderItems();
+});
+popupPlaceAdd.setEventListeners();
 
 // Слушатели событий popup для places
 addPlacesButton.addEventListener('click', () => {
-  const popupPlaceAdd = new PopupWithForm('.popup_add-places', (formData) => {
-    const newPlace = cardSection([{
-      name: formData['places-name'],
-      link: formData['places-image'],
-    }, ]);
-    newPlace.renderItems();
-  });
-
   popupPlaceAdd.open();
 
   const popupPlaceFormValidate = new FormValidator(
@@ -96,4 +105,4 @@ addPlacesButton.addEventListener('click', () => {
   );
   popupPlaceFormValidate.enableValidation();
   popupPlaceFormValidate.resetForm();
-})
+});
