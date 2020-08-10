@@ -15,7 +15,11 @@ import {
 import './index.css';
 
 // функция слушателя картинки для карт
-const popupImage = new PopupWithImage('.popup_image-places', '.popup__places-image', '.popup__places-title');
+const popupImage = new PopupWithImage(
+  '.popup_image-places',
+  '.popup__places-image',
+  '.popup__places-title'
+);
 
 const handleCardClick = (data) => {
   popupImage.open(data);
@@ -23,27 +27,23 @@ const handleCardClick = (data) => {
 };
 
 // Функция создания новой карточки
-const cardSection = (items) => {
-  const card = new Section({
-      items: items,
-      renderer: (cardItem) => {
-        const placeCard = new Card(
-          cardItem,
-          '#places-template',
-          handleCardClick
-        );
-        const placeItem = placeCard.generateCard();
-        card.addItem(placeItem);
-      },
-    },
-    '.places__cards'
-  );
-  return card;
+const createCard = (cardItem) => {
+  const placeCard = new Card(cardItem, '#places-template', handleCardClick);
+  return placeCard.generateCard();
 };
 
-// Инициализация стартовых карточек массива через классы Card и Section
-const initialItemCard = cardSection(initialCards);
-initialItemCard.renderItems();
+// Создание списка карточек
+const cardsSection = new Section(
+  {
+    items: initialCards,
+    renderer: (cardItem) => {
+      const placeCard = createCard(cardItem);
+      cardsSection.addItem(placeCard);
+    },
+  },
+  '.places__cards'
+);
+cardsSection.renderItems();
 
 // Создание информации о пользователи
 const userInfo = new UserInfo({
@@ -78,11 +78,16 @@ editProfileButton.addEventListener('click', () => {
 
 // Создание попапа для places
 const popupPlaceAdd = new PopupWithForm('.popup_add-places', (formData) => {
-  const newPlace = cardSection([{
-    name: formData['places-name'],
-    link: formData['places-image'],
-  }, ]);
-  newPlace.renderItems();
+  const newPlace = new Card(
+    {
+      name: formData['places-name'],
+      link: formData['places-image'],
+    },
+    '#places-template',
+    handleCardClick
+  );
+  const newCard = newPlace.generateCard();
+  cardsSection.addItem(newCard);
 });
 popupPlaceAdd.setEventListeners();
 
