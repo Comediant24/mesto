@@ -1,26 +1,33 @@
+import seligerImage from '../images/seliger.jpg'
+import sahalinImage from '../images/sahalin_134.jpg'
+import evenciaImage from '../images/plato-putarano.png'
+import yakutiaImage from '../images/lensk-stolb.jpg'
+import baikalImage from '../images/baikal.jpg'
+import krskImage from '../images/kras-stolb.jpg'
+
 const initialCards = [{
     name: 'Селигер',
-    link: './images/seliger.jpg'
+    link: seligerImage
   },
   {
     name: 'Сахалин',
-    link: './images/sahalin_134.jpg'
+    link: sahalinImage
   },
   {
     name: 'Эвенкия',
-    link: './images/plato-putarano.png'
+    link: evenciaImage
   },
   {
     name: 'Якутия',
-    link: './images/lensk-stolb.jpg'
+    link: yakutiaImage
   },
   {
     name: 'Байкал',
-    link: './images/baikal.jpg'
+    link: baikalImage
   },
   {
     name: 'Красноярск',
-    link: './images/kras-stolb.jpg'
+    link: krskImage
   }
 ];
 

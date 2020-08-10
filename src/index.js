@@ -11,7 +11,8 @@ import {
   popupProfileJobInput,
   addPlacesButton,
   propertiesForm
-} from './utils/constants.js'
+} from './utils/constants.js';
+import './pages/index.css';
 
 // Слушатель картинки для карт
 const handleCardClick = (data) => {

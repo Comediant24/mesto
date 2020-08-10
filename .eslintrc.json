@@ -8,16 +8,25 @@
 		"func-names": "off",
 		"object-shorthand": "off",
 		"class-methods-use-this": "off",
-		"no-underscore-dangle": ["error", {
-			"allowAfterThis": true
-		}],
-		"no-param-reassign": ["error", {
-			"props": false
-		}],
+		"no-underscore-dangle": [
+			"error",
+			{
+				"allowAfterThis": true
+			}
+		],
+		"no-param-reassign": [
+			"error",
+			{
+				"props": false
+			}
+		],
 		"import/extensions": ["error", "always"],
 		"quotes": ["error", "single"],
 		"no-useless-constructor": "off",
 		"import/no-named-as-default": 0,
-		"import/no-named-as-default-member": 0
+		"import/no-named-as-default-member": 0,
+		"import/no-extraneous-dependencies": ["error", {
+			"devDependencies": true
+		}]
 	}
 }
