@@ -30,8 +30,7 @@ const createCard = (cardItem) => {
 };
 
 // Создание списка карточек
-const cardsSection = new Section(
-  {
+const cardsSection = new Section({
     items: initialCards,
     renderer: (cardItem) => {
       const placeCard = createCard(cardItem);
@@ -54,6 +53,7 @@ const popupUserInfoEdit = new PopupWithForm(
   popupConfig,
   (formData) => {
     userInfo.setUserInfo(formData);
+    popupUserInfoEdit.close()
   }
 );
 popupUserInfoEdit.setEventListeners();
@@ -79,16 +79,16 @@ const popupPlaceAdd = new PopupWithForm(
   '.popup_add-places',
   popupConfig,
   (formData) => {
-    const newPlace = new Card(
-      {
+    const newPlace = new Card({
         name: formData['places-name'],
         link: formData['places-image'],
       },
       '#places-template',
-      handleCardClick
+      handleCardClick,
     );
     const newCard = newPlace.generateCard();
     cardsSection.addItem(newCard);
+    popupPlaceAdd.close()
   }
 );
 popupPlaceAdd.setEventListeners();
