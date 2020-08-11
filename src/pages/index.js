@@ -17,10 +17,10 @@ import './index.css';
 
 // функция слушателя картинки для карт
 const popupImage = new PopupWithImage('.popup_image-places', popupConfig);
+popupImage.setEventListeners();
 
 const handleCardClick = (data) => {
   popupImage.open(data);
-  popupImage.setEventListeners();
 };
 
 // Функция создания новой карточки
@@ -78,15 +78,11 @@ const popupPlaceAdd = new PopupWithForm(
   '.popup_add-places',
   popupConfig,
   (formData) => {
-    const newPlace = new Card({
-        name: formData['places-name'],
-        link: formData['places-image'],
-      },
-      '#places-template',
-      handleCardClick,
-    );
-    const newCard = newPlace.generateCard();
-    cardsSection.addItem(newCard);
+    const newPlace = createCard({
+      name: formData['places-name'],
+      link: formData['places-image'],
+    });
+    cardsSection.addItem(newPlace);
     popupPlaceAdd.close()
   }
 );
