@@ -31,7 +31,6 @@ const createCard = (cardItem) => {
 
 // Создание списка карточек
 const cardsSection = new Section({
-    items: initialCards,
     renderer: (cardItem) => {
       const placeCard = createCard(cardItem);
       cardsSection.addItem(placeCard);
@@ -39,7 +38,7 @@ const cardsSection = new Section({
   },
   '.places__cards'
 );
-cardsSection.renderItems();
+cardsSection.renderItems(initialCards);
 
 // Создание информации о пользователи
 const userInfo = new UserInfo({
