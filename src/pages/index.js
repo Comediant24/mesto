@@ -11,15 +11,12 @@ import {
   popupProfileJobInput,
   addPlacesButton,
   propertiesForm,
+  popupConfig,
 } from '../utils/constants.js';
 import './index.css';
 
 // функция слушателя картинки для карт
-const popupImage = new PopupWithImage(
-  '.popup_image-places',
-  '.popup__places-image',
-  '.popup__places-title'
-);
+const popupImage = new PopupWithImage('.popup_image-places', popupConfig);
 
 const handleCardClick = (data) => {
   popupImage.open(data);
@@ -54,6 +51,7 @@ const userInfo = new UserInfo({
 // Создание попапа для user
 const popupUserInfoEdit = new PopupWithForm(
   '.popup_edit-profile',
+  popupConfig,
   (formData) => {
     userInfo.setUserInfo(formData);
   }
@@ -77,18 +75,22 @@ editProfileButton.addEventListener('click', () => {
 });
 
 // Создание попапа для places
-const popupPlaceAdd = new PopupWithForm('.popup_add-places', (formData) => {
-  const newPlace = new Card(
-    {
-      name: formData['places-name'],
-      link: formData['places-image'],
-    },
-    '#places-template',
-    handleCardClick
-  );
-  const newCard = newPlace.generateCard();
-  cardsSection.addItem(newCard);
-});
+const popupPlaceAdd = new PopupWithForm(
+  '.popup_add-places',
+  popupConfig,
+  (formData) => {
+    const newPlace = new Card(
+      {
+        name: formData['places-name'],
+        link: formData['places-image'],
+      },
+      '#places-template',
+      handleCardClick
+    );
+    const newCard = newPlace.generateCard();
+    cardsSection.addItem(newCard);
+  }
+);
 popupPlaceAdd.setEventListeners();
 
 // Форма валидации popup для places

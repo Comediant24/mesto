@@ -16,3 +16,13 @@ export const propertiesForm = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible',
 };
+
+export const popupConfig = {
+  popupOpen: 'popup_opened',
+  popupPlaceImage: '.popup__places-image',
+  popupPlaceTitle: '.popup__places-title',
+  popupCloseButton: '.popup__close-button',
+  popupOverlay: '.popup__overlay',
+  popupForm: '.popup__form',
+  popupFormInput: '.popup__input'
+}
