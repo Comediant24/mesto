@@ -116,6 +116,17 @@ const popupPlaceAdd = new PopupWithForm(
   '.popup_add-places',
   popupConfig,
   (formData) => {
+    fetch('https://mesto.nomoreparties.co/v1/cohort-14/cards', {
+      method: 'POST',
+      headers: {
+        authorization: '868762c3-88e2-4bf0-b9ab-a6e82ee7a617',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: formData['places-name'],
+        link: formData['places-image']
+      })
+    });
     const newPlace = createCard({
       name: formData['places-name'],
       link: formData['places-image'],
