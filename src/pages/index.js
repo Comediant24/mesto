@@ -15,6 +15,21 @@ import {
 } from '../utils/constants.js';
 import './index.css';
 
+// Установка имени юзера с сервера
+fetch('https://mesto.nomoreparties.co/v1/cohort-14/users/me', {
+    headers: {
+      authorization: '868762c3-88e2-4bf0-b9ab-a6e82ee7a617'
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.querySelector('.profile__user-name').textContent = data.name;
+    document.querySelector('.profile__user-job').textContent = data.about;
+    document.querySelector('.profile__avatar').src = data.avatar;
+  });
+
+
+
 // функция слушателя картинки для карт
 const popupImage = new PopupWithImage('.popup_image-places', popupConfig);
 popupImage.setEventListeners();
