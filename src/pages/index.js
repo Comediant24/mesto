@@ -1,7 +1,6 @@
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
-import initialCards from '../utils/initialCards.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
@@ -28,8 +27,6 @@ fetch('https://mesto.nomoreparties.co/v1/cohort-14/users/me', {
     document.querySelector('.profile__avatar').src = data.avatar;
   });
 
-
-
 // функция слушателя картинки для карт
 const popupImage = new PopupWithImage('.popup_image-places', popupConfig);
 popupImage.setEventListeners();
@@ -53,7 +50,17 @@ const cardsSection = new Section({
   },
   '.places__cards'
 );
-cardsSection.renderItems(initialCards);
+
+// Инициализация карт с сервера
+fetch('https://mesto.nomoreparties.co/v1/cohort-14/cards', {
+    headers: {
+      authorization: '868762c3-88e2-4bf0-b9ab-a6e82ee7a617'
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    cardsSection.renderItems(data);
+  });
 
 // Создание информации о пользователи
 const userInfo = new UserInfo({
