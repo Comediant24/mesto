@@ -59,7 +59,7 @@ fetch('https://mesto.nomoreparties.co/v1/cohort-14/cards', {
   })
   .then(res => res.json())
   .then(data => {
-    cardsSection.renderItems(data);
+    cardsSection.renderItems(data.reverse());
   });
 
 // Создание информации о пользователи
