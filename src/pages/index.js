@@ -68,11 +68,27 @@ const userInfo = new UserInfo({
   userJob: '.profile__user-job',
 });
 
+// Функция для сохранения новых userInfo на сервере
+const patchUserInfo = formData => {
+  fetch('https://mesto.nomoreparties.co/v1/cohort-14/users/me', {
+    method: 'PATCH',
+    headers: {
+      authorization: '868762c3-88e2-4bf0-b9ab-a6e82ee7a617',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: formData['user-name'],
+      about: formData['user-job']
+    })
+  });
+}
+
 // Создание попапа для user
 const popupUserInfoEdit = new PopupWithForm(
   '.popup_edit-profile',
   popupConfig,
   (formData) => {
+    patchUserInfo(formData);
     userInfo.setUserInfo(formData);
     popupUserInfoEdit.close()
   }
