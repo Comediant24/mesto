@@ -23,6 +23,10 @@
 		"import/extensions": ["error", "always"],
 		"quotes": ["error", "single"],
 		"no-useless-constructor": "off",
+		"no-console": ["error", {
+			"allow": ["warn", "error"]
+		}],
+		"prefer-promise-reject-errors": "off",
 		"import/no-named-as-default": 0,
 		"import/no-named-as-default-member": 0,
 		"import/no-extraneous-dependencies": ["error", {

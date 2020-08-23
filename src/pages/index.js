@@ -13,19 +13,22 @@ import {
   popupConfig,
 } from '../utils/constants.js';
 import './index.css';
+import Api from '../components/Api.js';
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-14/',
+  headers: {
+    authorization: '868762c3-88e2-4bf0-b9ab-a6e82ee7a617',
+    'Content-Type': 'application/json',
+  },
+});
 
 // Установка имени юзера с сервера
-fetch('https://mesto.nomoreparties.co/v1/cohort-14/users/me', {
-    headers: {
-      authorization: '868762c3-88e2-4bf0-b9ab-a6e82ee7a617'
-    }
-  })
-  .then(res => res.json())
-  .then(data => {
-    document.querySelector('.profile__user-name').textContent = data.name;
-    document.querySelector('.profile__user-job').textContent = data.about;
-    document.querySelector('.profile__avatar').src = data.avatar;
-  });
+api.getUserInfo().then((data) => {
+  document.querySelector('.profile__user-name').textContent = data.name;
+  document.querySelector('.profile__user-job').textContent = data.about;
+  document.querySelector('.profile__avatar').src = data.avatar;
+});
 
 // функция слушателя картинки для карт
 const popupImage = new PopupWithImage('.popup_image-places', popupConfig);
@@ -42,7 +45,8 @@ const createCard = (cardItem) => {
 };
 
 // Создание списка карточек
-const cardsSection = new Section({
+const cardsSection = new Section(
+  {
     renderer: (cardItem) => {
       const placeCard = createCard(cardItem);
       cardsSection.addItem(placeCard);
@@ -52,15 +56,9 @@ const cardsSection = new Section({
 );
 
 // Инициализация карт с сервера
-fetch('https://mesto.nomoreparties.co/v1/cohort-14/cards', {
-    headers: {
-      authorization: '868762c3-88e2-4bf0-b9ab-a6e82ee7a617'
-    }
-  })
-  .then(res => res.json())
-  .then(data => {
-    cardsSection.renderItems(data.reverse());
-  });
+api.getInitialCards().then((data) => {
+  cardsSection.renderItems(data.reverse());
+});
 
 // Создание информации о пользователи
 const userInfo = new UserInfo({
@@ -68,29 +66,14 @@ const userInfo = new UserInfo({
   userJob: '.profile__user-job',
 });
 
-// Функция для сохранения новых userInfo на сервере
-const patchUserInfo = formData => {
-  fetch('https://mesto.nomoreparties.co/v1/cohort-14/users/me', {
-    method: 'PATCH',
-    headers: {
-      authorization: '868762c3-88e2-4bf0-b9ab-a6e82ee7a617',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: formData['user-name'],
-      about: formData['user-job']
-    })
-  });
-}
-
 // Создание попапа для user
 const popupUserInfoEdit = new PopupWithForm(
   '.popup_edit-profile',
   popupConfig,
   (formData) => {
-    patchUserInfo(formData);
+    api.sendUserInfo(formData);
     userInfo.setUserInfo(formData);
-    popupUserInfoEdit.close()
+    popupUserInfoEdit.close();
   }
 );
 popupUserInfoEdit.setEventListeners();
@@ -116,23 +99,13 @@ const popupPlaceAdd = new PopupWithForm(
   '.popup_add-places',
   popupConfig,
   (formData) => {
-    fetch('https://mesto.nomoreparties.co/v1/cohort-14/cards', {
-      method: 'POST',
-      headers: {
-        authorization: '868762c3-88e2-4bf0-b9ab-a6e82ee7a617',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: formData['places-name'],
-        link: formData['places-image']
-      })
-    });
+    api.sendNewElement(formData);
     const newPlace = createCard({
       name: formData['places-name'],
       link: formData['places-image'],
     });
     cardsSection.addItem(newPlace);
-    popupPlaceAdd.close()
+    popupPlaceAdd.close();
   }
 );
 popupPlaceAdd.setEventListeners();
