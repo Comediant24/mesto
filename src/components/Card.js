@@ -1,9 +1,14 @@
 export default class Card {
 
-  constructor(data, cardSelector, handleCardClick) {
+  constructor(data, cardSelector, handleCardClick, myId) {
+    console.log("Card -> constructor -> data", data)
     this._data = data;
     this._name = data.name;
     this._img = data.link;
+    this._likesCount = data.likes.length;
+    this._myId = myId;
+    this._userId = data._id;
+    this._ownerId = data.owner._id;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
   }
@@ -29,16 +34,22 @@ export default class Card {
 
   _setEventListeners() {
     this._element.querySelector('.places__button-like').addEventListener('click', this._likePlaceItem);
-    this._element.querySelector('.places__button-delete').addEventListener('click', this._deletePlaceItem);
-    this._element.querySelector('.places__image').addEventListener('click', () => this._handleCardClick(this._data));
+    if (this._ownerId === this._myId) {
+      this._delete.addEventListener('click', this._deletePlaceItem);
+    } else {
+      this._delete.remove();
+    }
+    this._image.addEventListener('click', () => this._handleCardClick(this._data));
   }
 
   generateCard() {
     this._element = this._getTemplate();
-    this._setEventListeners();
+    this._delete = this._element.querySelector('.places__button-delete');
+    this._image = this._element.querySelector('.places__image');
     this._element.querySelector('.places__title').textContent = this._name;
-    this._element.querySelector('.places__image').src = this._img;
+    this._image.src = this._img;
     this._element.querySelector('.places__like-counter').textContent = this._likesCount;
+    this._setEventListeners();
     return this._element;
   }
 }

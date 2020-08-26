@@ -40,13 +40,12 @@ const handleCardClick = (data) => {
 
 // Функция создания новой карточки
 const createCard = (cardItem) => {
-  const placeCard = new Card(cardItem, '#places-template', handleCardClick);
+  const placeCard = new Card(cardItem, '#places-template', handleCardClick, '9724bb4fa739b68d54858228');
   return placeCard.generateCard();
 };
 
 // Создание списка карточек
-const cardsSection = new Section(
-  {
+const cardsSection = new Section({
     renderer: (cardItem) => {
       const placeCard = createCard(cardItem);
       cardsSection.addItem(placeCard);
