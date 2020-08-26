@@ -98,13 +98,10 @@ const popupPlaceAdd = new PopupWithForm(
   '.popup_add-places',
   popupConfig,
   (formData) => {
-    api.sendNewElement(formData);
-    const newPlace = createCard({
-      name: formData['places-name'],
-      link: formData['places-image'],
-    });
-    cardsSection.addItem(newPlace);
-    popupPlaceAdd.close();
+    api.sendNewElement(formData)
+      .then(result => createCard(result))
+      .then(newPlace => cardsSection.addItem(newPlace))
+      .then(() => popupPlaceAdd.close());
   }
 );
 popupPlaceAdd.setEventListeners();
