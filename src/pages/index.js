@@ -11,6 +11,9 @@ import {
   addPlacesButton,
   propertiesForm,
   popupConfig,
+  userName,
+  userJob,
+  userAvatar,
 } from '../utils/constants.js';
 import './index.css';
 import Api from '../components/Api.js';
@@ -24,11 +27,12 @@ const api = new Api({
 });
 
 // Установка имени юзера с сервера
-api.getUserInfo().then((data) => {
-  document.querySelector('.profile__user-name').textContent = data.name;
-  document.querySelector('.profile__user-job').textContent = data.about;
-  document.querySelector('.profile__avatar').src = data.avatar;
-});
+api.getUserInfo()
+  .then((data) => {
+    userName.textContent = data.name;
+    userJob.textContent = data.about;
+    userAvatar.src = data.avatar;
+  });
 
 // функция слушателя картинки для карт
 const popupImage = new PopupWithImage('.popup_image-places', popupConfig);
@@ -70,8 +74,8 @@ const popupUserInfoEdit = new PopupWithForm(
   '.popup_edit-profile',
   popupConfig,
   (formData) => {
-    api.sendUserInfo(formData);
-    userInfo.setUserInfo(formData);
+    api.sendUserInfo(formData)
+      .then(user => userInfo.setUserInfo(user));
     popupUserInfoEdit.close();
   }
 );
