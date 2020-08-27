@@ -1,5 +1,6 @@
 .places__name {
   display: flex;
   align-items: center;
-  margin: 25px 18px 31px 21px ;
+  justify-content: space-between;
+  margin: 25px 21px 31px;
 }
