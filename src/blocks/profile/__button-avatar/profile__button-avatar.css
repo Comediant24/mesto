@@ -10,13 +10,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: #00000000;
-  opacity: 1;
-  transition: .2s;
+  opacity: 0.5;
+  transition: opacity 0.2s linear;
 }
 
 .profile__button-avatar:hover::after {
-  background: #000000cc;
+  opacity: 1;
+  background-color: #000000cc;
   background-image: url(../../../images/avatar-edit.svg);
   background-repeat: no-repeat;
   background-position: center;

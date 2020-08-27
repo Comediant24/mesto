@@ -16,6 +16,7 @@ import {
   userJob,
   userAvatar,
   myId,
+  changeAvatarButton,
 } from '../utils/constants.js';
 import './index.css';
 import Api from '../components/Api.js';
@@ -95,6 +96,7 @@ api.getInitialCards().then((data) => {
 const userInfo = new UserInfo({
   userName: '.profile__user-name',
   userJob: '.profile__user-job',
+  userAvatar: '.profile__avatar',
 });
 
 // Создание попапа для user
@@ -102,11 +104,37 @@ const popupUserInfoEdit = new PopupWithForm(
   '.popup_edit-profile',
   popupConfig,
   (formData) => {
-    api.sendUserInfo(formData).then((user) => userInfo.setUserInfo(user));
-    popupUserInfoEdit.close();
+    api
+      .sendUserInfo(formData)
+      .then((user) => userInfo.setUserInfo(user))
+      .then(() => popupUserInfoEdit.close());
   }
 );
 popupUserInfoEdit.setEventListeners();
+
+// Форма валидации popup для avatara
+const popupAvatarFormValidate = new FormValidator(
+  '.popup__form_avatar-change',
+  propertiesForm
+);
+popupAvatarFormValidate.enableValidation();
+
+const popupAvatar = new PopupWithForm(
+  '.popup_avatar-change',
+  popupConfig,
+  (formData) => {
+    api
+      .changeAvatar(formData)
+      .then((user) => userInfo.setUserInfo(user))
+      .then(() => popupAvatar.close());
+  }
+);
+popupAvatar.setEventListeners();
+
+changeAvatarButton.addEventListener('click', () => {
+  popupAvatar.open();
+  popupAvatarFormValidate.resetForm();
+});
 
 // Форма валидации popup для user
 const popupProfileFormValidate = new FormValidator(

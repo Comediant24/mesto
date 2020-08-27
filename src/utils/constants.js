@@ -10,6 +10,9 @@ export const popupProfileJobInput = document.querySelector(
   '.popup__input_type_profile-status'
 );
 export const addPlacesButton = document.querySelector('.profile__add-button');
+export const changeAvatarButton = document.querySelector(
+  '.profile__button-avatar'
+);
 
 export const userName = document.querySelector('.profile__user-name');
 export const userJob = document.querySelector('.profile__user-job');

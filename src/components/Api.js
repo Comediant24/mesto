@@ -78,4 +78,16 @@ export default class Api {
       .then((res) => this._handleResponse(res))
       .catch(this._handleError);
   }
+
+  changeAvatar(formData) {
+    return fetch(`${this._url}users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: formData['avatar-link'],
+      }),
+    })
+      .then((res) => this._handleResponse(res))
+      .catch(this._handleError);
+  }
 }
