@@ -1,8 +1,5 @@
 export default class Api {
-  constructor({
-    baseUrl,
-    headers
-  }) {
+  constructor({ baseUrl, headers }) {
     this._url = baseUrl;
     this._headers = headers;
   }
@@ -21,8 +18,8 @@ export default class Api {
 
   getInitialCards() {
     return fetch(`${this._url}cards`, {
-        headers: this._headers,
-      })
+      headers: this._headers,
+    })
       .then((res) => this._handleResponse(res))
       .catch(this._handleError);
   }
@@ -53,5 +50,14 @@ export default class Api {
         link: formData['places-image'],
       }),
     }).then((res) => res.json());
+  }
+
+  deleteElement(id) {
+    return fetch(`${this._url}cards/${id}`, {
+      method: 'DELETE',
+      headers: this._headers,
+    })
+      .then((res) => this._handleResponse(res))
+      .catch(this._handleError);
   }
 }

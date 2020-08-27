@@ -3,6 +3,7 @@ import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithConfirm from '../components/PopupWithConfirm.js';
 import UserInfo from '../components/UserInfo.js';
 import {
   editProfileButton,
@@ -27,12 +28,14 @@ const api = new Api({
 });
 
 // Установка имени юзера с сервера
-api.getUserInfo()
-  .then((data) => {
-    userName.textContent = data.name;
-    userJob.textContent = data.about;
-    userAvatar.src = data.avatar;
-  });
+api.getUserInfo().then((data) => {
+  userName.textContent = data.name;
+  userJob.textContent = data.about;
+  userAvatar.src = data.avatar;
+});
+
+const popupDelete = new PopupWithConfirm('.popup_delete-place', popupConfig);
+popupDelete.setEventListeners();
 
 // функция слушателя картинки для карт
 const popupImage = new PopupWithImage('.popup_image-places', popupConfig);
@@ -44,12 +47,27 @@ const handleCardClick = (data) => {
 
 // Функция создания новой карточки
 const createCard = (cardItem) => {
-  const placeCard = new Card(cardItem, '#places-template', handleCardClick, '9724bb4fa739b68d54858228');
+  const placeCard = new Card(
+    cardItem,
+    '#places-template',
+    handleCardClick,
+    {
+      handleDelete: () => {
+        popupDelete.open();
+        popupDelete.setFormSubmitHandler(() => {
+          api.deleteElement(cardItem._id);
+          placeCard.deleteCard();
+        });
+      },
+    },
+    '9724bb4fa739b68d54858228'
+  );
   return placeCard.generateCard();
 };
 
 // Создание списка карточек
-const cardsSection = new Section({
+const cardsSection = new Section(
+  {
     renderer: (cardItem) => {
       const placeCard = createCard(cardItem);
       cardsSection.addItem(placeCard);
@@ -74,8 +92,7 @@ const popupUserInfoEdit = new PopupWithForm(
   '.popup_edit-profile',
   popupConfig,
   (formData) => {
-    api.sendUserInfo(formData)
-      .then(user => userInfo.setUserInfo(user));
+    api.sendUserInfo(formData).then((user) => userInfo.setUserInfo(user));
     popupUserInfoEdit.close();
   }
 );
@@ -102,9 +119,10 @@ const popupPlaceAdd = new PopupWithForm(
   '.popup_add-places',
   popupConfig,
   (formData) => {
-    api.sendNewElement(formData)
-      .then(result => createCard(result))
-      .then(newPlace => cardsSection.addItem(newPlace))
+    api
+      .sendNewElement(formData)
+      .then((result) => createCard(result))
+      .then((newPlace) => cardsSection.addItem(newPlace))
       .then(() => popupPlaceAdd.close());
   }
 );
