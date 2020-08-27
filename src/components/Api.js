@@ -60,4 +60,22 @@ export default class Api {
       .then((res) => this._handleResponse(res))
       .catch(this._handleError);
   }
+
+  addLikeElement(id) {
+    return fetch(`${this._url}cards/likes/${id}`, {
+      method: 'PUT',
+      headers: this._headers,
+    })
+      .then((res) => this._handleResponse(res))
+      .catch(this._handleError);
+  }
+
+  removeLikeElement(id) {
+    return fetch(`${this._url}cards/likes/${id}`, {
+      method: 'DELETE',
+      headers: this._headers,
+    })
+      .then((res) => this._handleResponse(res))
+      .catch(this._handleError);
+  }
 }

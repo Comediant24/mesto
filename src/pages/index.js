@@ -15,6 +15,7 @@ import {
   userName,
   userJob,
   userAvatar,
+  myId,
 } from '../utils/constants.js';
 import './index.css';
 import Api from '../components/Api.js';
@@ -52,15 +53,24 @@ const createCard = (cardItem) => {
     '#places-template',
     handleCardClick,
     {
-      handleDelete: () => {
+      handleDeleteIconClick: () => {
         popupDelete.open();
         popupDelete.setFormSubmitHandler(() => {
-          api.deleteElement(cardItem._id);
-          placeCard.deleteCard();
+          api.deleteElement(cardItem._id).then(() => placeCard.deleteCard());
+        });
+      },
+      handleLikeClick: (like) => {
+        if (!like.classList.contains('places__button-like_enabled')) {
+          return api.addLikeElement(cardItem._id).then((res) => {
+            placeCard.likeCard(res.likes.length);
+          });
+        }
+        return api.removeLikeElement(cardItem._id).then((res) => {
+          placeCard.likeCard(res.likes.length);
         });
       },
     },
-    '9724bb4fa739b68d54858228'
+    myId
   );
   return placeCard.generateCard();
 };

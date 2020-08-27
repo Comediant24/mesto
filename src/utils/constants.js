@@ -1,4 +1,7 @@
-export const editProfileButton = document.querySelector('.profile__user-edit-button');
+export const myId = '9724bb4fa739b68d54858228';
+export const editProfileButton = document.querySelector(
+  '.profile__user-edit-button'
+);
 
 export const popupProfileNameInput = document.querySelector(
   '.popup__input_type_profile-name'
@@ -28,5 +31,5 @@ export const popupConfig = {
   popupCloseButton: '.popup__close-button',
   popupOverlay: '.popup__overlay',
   popupForm: '.popup__form',
-  popupFormInput: '.popup__input'
-}
+  popupFormInput: '.popup__input',
+};
