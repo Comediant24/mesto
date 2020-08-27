@@ -69,12 +69,12 @@ export default class Card {
     this._element = this._getTemplate();
     this._like = this._element.querySelector('.places__button-like');
     this._likes = this._element.querySelector('.places__like-counter');
+    this._delete = this._element.querySelector('.places__button-delete');
+    this._element.querySelector('.places__title').textContent = this._name;
     if (!(this._checkLike() === undefined)) {
       this._like.classList.toggle('places__button-like_enabled');
     }
-    this._delete = this._element.querySelector('.places__button-delete');
     this._image = this._element.querySelector('.places__image');
-    this._element.querySelector('.places__title').textContent = this._name;
     this._image.src = this._img;
     this._likes.textContent = this._likesCount;
     this._setEventListeners();
