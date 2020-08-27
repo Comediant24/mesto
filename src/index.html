@@ -20,7 +20,10 @@
     </header>
     <main class="content">
       <section class="profile">
-        <img class="profile__avatar" src="#" alt="Аватар пользователя" />
+        <button class="button button_non-opacity profile__button-avatar">
+
+          <img class="profile__avatar" src="#" alt="Аватар пользователя" />
+        </button>
         <div class="profile__info">
           <h1 class="profile__user-name"></h1>
           <button class="button profile__user-edit-button" type="button"
@@ -38,6 +41,7 @@
         &copy; 2020 Mesto Russia
       </p>
     </footer>
+
     <section class="popup popup_edit-profile">
       <div class="popup__overlay popup__overlay_edit-profile"></div>
       <form class="popup__form popup__form_edit-profile" name="user-info" action="#" method="POST" novalidate>
@@ -57,6 +61,7 @@
           aria-label="Закрыть окно"></button>
       </form>
     </section>
+
     <section class="popup popup_add-places">
       <div class="popup__overlay popup__overlay_add-places"></div>
       <form class="popup__form popup__form_add-places" name="places-add" action="#" method="POST" novalidate>
@@ -76,16 +81,16 @@
           aria-label="Закрыть окно"></button>
       </form>
     </section>
+
     <section class="popup popup_image-places">
       <div class="popup__overlay popup__overlay_image-places"></div>
       <figure class="popup__places">
         <img src="#" alt="#" class="popup__places-image" />
-        <figcaption class="popup__places-title">Кучкудум</figcaption>
+        <figcaption class="popup__places-title"></figcaption>
         <button class="button popup__close-button popup__close-button_image-places" type="button"
           aria-label="Закрыть окно"></button>
       </figure>
     </section>
-
 
     <section class="popup popup_delete-place">
       <div class="popup__overlay popup__overlay_delete"></div>
@@ -98,21 +103,38 @@
           aria-label="Закрыть окно"></button>
       </form>
     </section>
-  </div>
 
-  <template id="places-template">
-    <li class="places__items">
-      <img src="#" alt="#" class="places__image" />
-      <div class="places__name">
-        <h2 class="places__title"></h2>
-        <div class="places__like">
-          <button class="button places__button-like" type="button" aria-label="Поставить лайк месту"></button>
-          <p class="places__like-counter"></p>
+    <section class="popup popup_avatar-change">
+      <div class="popup__overlay popup__overlay_avatar-change"></div>
+      <form class="popup__form popup__form_avatar-change" name="avatar-change" action="#" method="POST" novalidate>
+        <h3 class="popup__title">Обновить аватар</h3>
+        <fieldset class="popup__input-container">
+          <input class="popup__input popup__input_type_place-image" name="avatar-link" type="url"
+            placeholder="Ссылка на картинку" required autocomplete="off" />
+          <span class="popup__error"></span>
+        </fieldset>
+        <button class="button popup__submit-button popup__submit-button_disabled" type="submit" disabled>
+          Создать
+        </button>
+        <button class="button popup__close-button popup__close-button__add-places" type="button"
+          aria-label="Закрыть окно"></button>
+      </form>
+    </section>
+
+    <template id="places-template">
+      <li class="places__items">
+        <img src="#" alt="#" class="places__image" />
+        <div class="places__name">
+          <h2 class="places__title"></h2>
+          <div class="places__like">
+            <button class="button places__button-like" type="button" aria-label="Поставить лайк месту"></button>
+            <p class="places__like-counter"></p>
+          </div>
         </div>
-      </div>
-      <button class="button places__button-delete" type="button" aria-label="Удалить карточку"></button>
-    </li>
-  </template>
+        <button class="button places__button-delete" type="button" aria-label="Удалить карточку"></button>
+      </li>
+    </template>
+  </div>
 </body>
 
 </html>
