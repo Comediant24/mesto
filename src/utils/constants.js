@@ -2,6 +2,9 @@ export const myId = '9724bb4fa739b68d54858228';
 export const editProfileButton = document.querySelector(
   '.profile__user-edit-button'
 );
+export const submitAvatarButton = document.querySelector('.popup__button-avatar');
+export const submitPlacesButton = document.querySelector('.popup__button-places');
+export const submitProfileButton = document.querySelector('.popup__button-profile');
 
 export const popupProfileNameInput = document.querySelector(
   '.popup__input_type_profile-name'

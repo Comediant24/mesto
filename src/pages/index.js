@@ -17,6 +17,9 @@ import {
   userAvatar,
   myId,
   changeAvatarButton,
+  submitProfileButton,
+  submitAvatarButton,
+  submitPlacesButton,
 } from '../utils/constants.js';
 import './index.css';
 import Api from '../components/Api.js';
@@ -52,8 +55,7 @@ const createCard = (cardItem) => {
   const placeCard = new Card(
     cardItem,
     '#places-template',
-    handleCardClick,
-    {
+    handleCardClick, {
       handleDeleteIconClick: () => {
         popupDelete.open();
         popupDelete.setFormSubmitHandler(() => {
@@ -77,8 +79,7 @@ const createCard = (cardItem) => {
 };
 
 // Создание списка карточек
-const cardsSection = new Section(
-  {
+const cardsSection = new Section({
     renderer: (cardItem) => {
       const placeCard = createCard(cardItem);
       cardsSection.addItem(placeCard);
@@ -104,10 +105,12 @@ const popupUserInfoEdit = new PopupWithForm(
   '.popup_edit-profile',
   popupConfig,
   (formData) => {
+    submitProfileButton.textContent = 'Сохранение...'
     api
       .sendUserInfo(formData)
       .then((user) => userInfo.setUserInfo(user))
-      .then(() => popupUserInfoEdit.close());
+      .then(() => popupUserInfoEdit.close())
+      .then(() => submitProfileButton.textContent = 'Сохранить')
   }
 );
 popupUserInfoEdit.setEventListeners();
@@ -123,10 +126,12 @@ const popupAvatar = new PopupWithForm(
   '.popup_avatar-change',
   popupConfig,
   (formData) => {
+    submitAvatarButton.textContent = 'Сохранение...'
     api
       .changeAvatar(formData)
       .then((user) => userInfo.setUserInfo(user))
-      .then(() => popupAvatar.close());
+      .then(() => popupAvatar.close())
+      .then(() => submitAvatarButton.textContent = 'Сохранить')
   }
 );
 popupAvatar.setEventListeners();
@@ -157,11 +162,13 @@ const popupPlaceAdd = new PopupWithForm(
   '.popup_add-places',
   popupConfig,
   (formData) => {
+    submitPlacesButton.textContent = 'Сохранение...'
     api
       .sendNewElement(formData)
       .then((result) => createCard(result))
       .then((newPlace) => cardsSection.addItem(newPlace))
-      .then(() => popupPlaceAdd.close());
+      .then(() => popupPlaceAdd.close())
+      .then(() => submitPlacesButton.textContent = 'Создать')
   }
 );
 popupPlaceAdd.setEventListeners();
