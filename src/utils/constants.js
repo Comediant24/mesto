@@ -1,6 +1,6 @@
-export const myId = '9724bb4fa739b68d54858228';
-export const myToken = '868762c3-88e2-4bf0-b9ab-a6e82ee7a617';
-export const cohort = 'https://mesto.nomoreparties.co/v1/cohort-14/';
+export const currentUserId = '9724bb4fa739b68d54858228';
+export const currentUserToken = '868762c3-88e2-4bf0-b9ab-a6e82ee7a617';
+export const currentUserCohort = 'https://mesto.nomoreparties.co/v1/cohort-14/';
 export const editProfileButton = document.querySelector(
   '.profile__user-edit-button'
 );

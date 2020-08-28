@@ -15,21 +15,18 @@ import {
   userName,
   userJob,
   userAvatar,
-  myId,
+  currentUserId,
   changeAvatarButton,
-  submitProfileButton,
-  submitAvatarButton,
-  submitPlacesButton,
-  myToken,
-  cohort,
+  currentUserToken,
+  currentUserCohort,
 } from '../utils/constants.js';
 import './index.css';
 import Api from '../components/Api.js';
 
 const api = new Api({
-  baseUrl: cohort,
+  baseUrl: currentUserCohort,
   headers: {
-    authorization: myToken,
+    authorization: currentUserToken,
     'Content-Type': 'application/json',
   },
 });
@@ -40,25 +37,31 @@ api.getUserInfo().then((data) => {
   userAvatar.src = data.avatar;
 });
 
+const renderLoading = (popup, loading, text = 'Сохранить') => {
+  const activePopup = document.querySelector(popup);
+  const button = activePopup.querySelector('.popup__submit-button');
+  button.textContent = loading ? 'Сохранение...' : text;
+};
+
 const popupDelete = new PopupWithConfirm('.popup_delete-place', popupConfig);
 const popupImage = new PopupWithImage('.popup_image-places', popupConfig);
 popupDelete.setEventListeners();
 popupImage.setEventListeners();
 
-const handleCardClick = (data) => {
-  popupImage.open(data);
-};
-
-const createCard = (cardItem) => {
+const renderer = (cardItem) => {
   const placeCard = new Card(
     cardItem,
-    '#places-template',
-    handleCardClick,
-    {
+    '#places-template', {
+      handleCardClick: () => {
+        popupImage.open(cardItem);
+      },
       handleDeleteIconClick: () => {
         popupDelete.open();
         popupDelete.setFormSubmitHandler(() => {
-          api.deleteElement(cardItem._id).then(() => placeCard.deleteCard());
+          api.deleteElement(cardItem._id).then(() => {
+            placeCard.deleteCard();
+            popupDelete.close();
+          });
         });
       },
       handleLikeClick: (like) => {
@@ -72,17 +75,13 @@ const createCard = (cardItem) => {
         });
       },
     },
-    myId
+    currentUserId
   );
-  return placeCard.generateCard();
+  cardsSection.addItem(placeCard.generateCard());
 };
 
-const cardsSection = new Section(
-  {
-    renderer: (cardItem) => {
-      const placeCard = createCard(cardItem);
-      cardsSection.addItem(placeCard);
-    },
+const cardsSection = new Section({
+    renderer,
   },
   '.places__cards'
 );
@@ -101,12 +100,13 @@ const popupUserInfoEdit = new PopupWithForm(
   '.popup_edit-profile',
   popupConfig,
   (formData) => {
-    submitProfileButton.textContent = 'Сохранение...';
+    renderLoading('.popup_edit-profile', true);
     api
       .sendUserInfo(formData)
       .then((user) => userInfo.setUserInfo(user))
       .then(() => popupUserInfoEdit.close())
-      .then(() => (submitProfileButton.textContent = 'Сохранить'));
+      .finally(() => renderLoading('.popup_edit-profile', false));
+
   }
 );
 popupUserInfoEdit.setEventListeners();
@@ -131,12 +131,12 @@ const popupAvatar = new PopupWithForm(
   '.popup_avatar-change',
   popupConfig,
   (formData) => {
-    submitAvatarButton.textContent = 'Сохранение...';
+    renderLoading('.popup_avatar-change', true);
     api
       .changeAvatar(formData)
       .then((user) => userInfo.setUserInfo(user))
       .then(() => popupAvatar.close())
-      .then(() => (submitAvatarButton.textContent = 'Сохранить'));
+      .finally(() => renderLoading('.popup_avatar-change', false));
   }
 );
 popupAvatar.setEventListeners();
@@ -158,13 +158,12 @@ const popupPlaceAdd = new PopupWithForm(
   '.popup_add-places',
   popupConfig,
   (formData) => {
-    submitPlacesButton.textContent = 'Сохранение...';
+    renderLoading('.popup_add-places', true);
     api
       .sendNewElement(formData)
-      .then((result) => createCard(result))
-      .then((newPlace) => cardsSection.addItem(newPlace))
+      .then((result) => renderer(result))
       .then(() => popupPlaceAdd.close())
-      .then(() => (submitPlacesButton.textContent = 'Создать'));
+      .finally(() => renderLoading('.popup_add-places', false, 'Создать'));
   }
 );
 popupPlaceAdd.setEventListeners();

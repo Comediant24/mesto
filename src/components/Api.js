@@ -1,5 +1,8 @@
 export default class Api {
-  constructor({ baseUrl, headers }) {
+  constructor({
+    baseUrl,
+    headers
+  }) {
     this._url = baseUrl;
     this._headers = headers;
   }
@@ -18,8 +21,8 @@ export default class Api {
 
   getInitialCards() {
     return fetch(`${this._url}cards`, {
-      headers: this._headers,
-    })
+        headers: this._headers,
+      })
       .then((res) => this._handleResponse(res))
       .catch(this._handleError);
   }
@@ -54,39 +57,39 @@ export default class Api {
 
   deleteElement(id) {
     return fetch(`${this._url}cards/${id}`, {
-      method: 'DELETE',
-      headers: this._headers,
-    })
+        method: 'DELETE',
+        headers: this._headers,
+      })
       .then((res) => this._handleResponse(res))
       .catch(this._handleError);
   }
 
   addLikeElement(id) {
     return fetch(`${this._url}cards/likes/${id}`, {
-      method: 'PUT',
-      headers: this._headers,
-    })
+        method: 'PUT',
+        headers: this._headers,
+      })
       .then((res) => this._handleResponse(res))
       .catch(this._handleError);
   }
 
   removeLikeElement(id) {
     return fetch(`${this._url}cards/likes/${id}`, {
-      method: 'DELETE',
-      headers: this._headers,
-    })
+        method: 'DELETE',
+        headers: this._headers,
+      })
       .then((res) => this._handleResponse(res))
       .catch(this._handleError);
   }
 
   changeAvatar(formData) {
     return fetch(`${this._url}users/me/avatar`, {
-      method: 'PATCH',
-      headers: this._headers,
-      body: JSON.stringify({
-        avatar: formData['avatar-link'],
-      }),
-    })
+        method: 'PATCH',
+        headers: this._headers,
+        body: JSON.stringify({
+          avatar: formData['avatar-link'],
+        }),
+      })
       .then((res) => this._handleResponse(res))
       .catch(this._handleError);
   }
