@@ -1,8 +1,11 @@
 export default class Card {
   constructor(
     data,
-    cardSelector,
-    { handleCardClick, handleDeleteIconClick, handleLikeClick },
+    cardSelector, {
+      handleCardClick,
+      handleDeleteIconClick,
+      handleLikeClick
+    },
     myId
   ) {
     this._data = data;
@@ -67,6 +70,7 @@ export default class Card {
     }
     this._image = this._element.querySelector('.places__image');
     this._image.src = this._img;
+    this._image.alt = `Лучшая фотография ${this._name}`
     this._likes.textContent = this._likesCount;
     this._setEventListeners();
     return this._element;

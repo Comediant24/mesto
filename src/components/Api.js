@@ -1,8 +1,5 @@
 export default class Api {
-  constructor({
-    baseUrl,
-    headers
-  }) {
+  constructor({ baseUrl, headers }) {
     this._url = baseUrl;
     this._headers = headers;
   }
@@ -14,26 +11,19 @@ export default class Api {
     return Promise.reject(`Ошибка: ${response.status}`);
   }
 
-  _handleError(error) {
-    console.error(`К сожалению, произошла ошибка: ${error}`);
-    return Promise.reject(error.message);
-  }
-
   getInitialCards() {
     return fetch(`${this._url}cards`, {
-        headers: this._headers,
-      })
-      .then((res) => this._handleResponse(res))
-      .catch(this._handleError);
+      headers: this._headers,
+    }).then((res) => this._handleResponse(res));
   }
 
   getUserInfo() {
     return fetch(`${this._url}users/me`, {
       headers: this._headers,
-    }).then((res) => res.json());
+    }).then((res) => this._handleResponse(res));
   }
 
-  sendUserInfo(formData) {
+  setUserInfo(formData) {
     return fetch(`${this._url}users/me`, {
       method: 'PATCH',
       headers: this._headers,
@@ -41,10 +31,10 @@ export default class Api {
         name: formData['user-name'],
         about: formData['user-job'],
       }),
-    }).then((res) => res.json());
+    }).then((res) => this._handleResponse(res));
   }
 
-  sendNewElement(formData) {
+  addCard(formData) {
     return fetch(`${this._url}cards`, {
       method: 'POST',
       headers: this._headers,
@@ -52,45 +42,37 @@ export default class Api {
         name: formData['places-name'],
         link: formData['places-image'],
       }),
-    }).then((res) => res.json());
+    }).then((res) => this._handleResponse(res));
   }
 
-  deleteElement(id) {
+  removeCard(id) {
     return fetch(`${this._url}cards/${id}`, {
-        method: 'DELETE',
-        headers: this._headers,
-      })
-      .then((res) => this._handleResponse(res))
-      .catch(this._handleError);
+      method: 'DELETE',
+      headers: this._headers,
+    }).then((res) => this._handleResponse(res));
   }
 
-  addLikeElement(id) {
+  addLike(id) {
     return fetch(`${this._url}cards/likes/${id}`, {
-        method: 'PUT',
-        headers: this._headers,
-      })
-      .then((res) => this._handleResponse(res))
-      .catch(this._handleError);
+      method: 'PUT',
+      headers: this._headers,
+    }).then((res) => this._handleResponse(res));
   }
 
-  removeLikeElement(id) {
+  removeLike(id) {
     return fetch(`${this._url}cards/likes/${id}`, {
-        method: 'DELETE',
-        headers: this._headers,
-      })
-      .then((res) => this._handleResponse(res))
-      .catch(this._handleError);
+      method: 'DELETE',
+      headers: this._headers,
+    }).then((res) => this._handleResponse(res));
   }
 
   changeAvatar(formData) {
     return fetch(`${this._url}users/me/avatar`, {
-        method: 'PATCH',
-        headers: this._headers,
-        body: JSON.stringify({
-          avatar: formData['avatar-link'],
-        }),
-      })
-      .then((res) => this._handleResponse(res))
-      .catch(this._handleError);
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: formData['avatar-link'],
+      }),
+    }).then((res) => this._handleResponse(res));
   }
 }

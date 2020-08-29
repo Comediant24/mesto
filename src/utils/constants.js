@@ -4,16 +4,6 @@ export const currentUserCohort = 'https://mesto.nomoreparties.co/v1/cohort-14/';
 export const editProfileButton = document.querySelector(
   '.profile__user-edit-button'
 );
-export const submitAvatarButton = document.querySelector(
-  '.popup__button-avatar'
-);
-export const submitPlacesButton = document.querySelector(
-  '.popup__button-places'
-);
-export const submitProfileButton = document.querySelector(
-  '.popup__button-profile'
-);
-
 export const popupProfileNameInput = document.querySelector(
   '.popup__input_type_profile-name'
 );
@@ -28,6 +18,12 @@ export const changeAvatarButton = document.querySelector(
 export const userName = document.querySelector('.profile__user-name');
 export const userJob = document.querySelector('.profile__user-job');
 export const userAvatar = document.querySelector('.profile__avatar');
+
+export const popup = {
+  editProfile: '.popup_edit-profile',
+  loadAvatar: '.popup_avatar-change',
+  addPlaces: '.popup_add-places',
+};
 
 export const propertiesForm = {
   formSelector: '.popup__form',

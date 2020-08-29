@@ -1,3 +1,5 @@
+import './index.css';
+import Api from '../components/Api.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
@@ -19,9 +21,9 @@ import {
   changeAvatarButton,
   currentUserToken,
   currentUserCohort,
+  popup,
 } from '../utils/constants.js';
-import './index.css';
-import Api from '../components/Api.js';
+import renderLoading from '../utils/utils.js';
 
 const api = new Api({
   baseUrl: currentUserCohort,
@@ -37,12 +39,6 @@ api.getUserInfo().then((data) => {
   userAvatar.src = data.avatar;
 });
 
-const renderLoading = (popup, loading, text = 'Сохранить') => {
-  const activePopup = document.querySelector(popup);
-  const button = activePopup.querySelector('.popup__submit-button');
-  button.textContent = loading ? 'Сохранение...' : text;
-};
-
 const popupDelete = new PopupWithConfirm('.popup_delete-place', popupConfig);
 const popupImage = new PopupWithImage('.popup_image-places', popupConfig);
 popupDelete.setEventListeners();
@@ -51,28 +47,38 @@ popupImage.setEventListeners();
 const renderer = (cardItem) => {
   const placeCard = new Card(
     cardItem,
-    '#places-template', {
+    '#places-template',
+    {
       handleCardClick: () => {
         popupImage.open(cardItem);
       },
       handleDeleteIconClick: () => {
         popupDelete.open();
         popupDelete.setFormSubmitHandler(() => {
-          api.deleteElement(cardItem._id).then(() => {
-            placeCard.deleteCard();
-            popupDelete.close();
-          });
+          api
+            .removeCard(cardItem._id)
+            .then(() => {
+              placeCard.deleteCard();
+              popupDelete.close();
+            })
+            .catch((err) => console.error(err));
         });
       },
       handleLikeClick: (like) => {
         if (!like.classList.contains('places__button-like_enabled')) {
-          return api.addLikeElement(cardItem._id).then((res) => {
-            placeCard.likeCard(res.likes.length);
-          });
+          return api
+            .addLike(cardItem._id)
+            .then((res) => {
+              placeCard.likeCard(res.likes.length);
+            })
+            .catch((err) => console.error(err));
         }
-        return api.removeLikeElement(cardItem._id).then((res) => {
-          placeCard.likeCard(res.likes.length);
-        });
+        return api
+          .removeLike(cardItem._id)
+          .then((res) => {
+            placeCard.likeCard(res.likes.length);
+          })
+          .catch((err) => console.error(err));
       },
     },
     currentUserId
@@ -80,15 +86,19 @@ const renderer = (cardItem) => {
   cardsSection.addItem(placeCard.generateCard());
 };
 
-const cardsSection = new Section({
+const cardsSection = new Section(
+  {
     renderer,
   },
   '.places__cards'
 );
 
-api.getInitialCards().then((data) => {
-  cardsSection.renderItems(data.reverse());
-});
+api
+  .getInitialCards()
+  .then((data) => {
+    cardsSection.renderItems(data.reverse());
+  })
+  .catch((err) => console.error(err));
 
 const userInfo = new UserInfo({
   userName: '.profile__user-name',
@@ -97,16 +107,16 @@ const userInfo = new UserInfo({
 });
 
 const popupUserInfoEdit = new PopupWithForm(
-  '.popup_edit-profile',
+  popup.editProfile,
   popupConfig,
   (formData) => {
-    renderLoading('.popup_edit-profile', true);
+    renderLoading(popup.editProfile, true);
     api
-      .sendUserInfo(formData)
+      .setUserInfo(formData)
       .then((user) => userInfo.setUserInfo(user))
       .then(() => popupUserInfoEdit.close())
-      .finally(() => renderLoading('.popup_edit-profile', false));
-
+      .catch((err) => console.error(err))
+      .finally(() => renderLoading(popup.editProfile, false));
   }
 );
 popupUserInfoEdit.setEventListeners();
@@ -128,15 +138,16 @@ popupAvatarFormValidate.enableValidation();
 popupPlaceFormValidate.enableValidation();
 
 const popupAvatar = new PopupWithForm(
-  '.popup_avatar-change',
+  popup.loadAvatar,
   popupConfig,
   (formData) => {
-    renderLoading('.popup_avatar-change', true);
+    renderLoading(popup.loadAvatar, true);
     api
       .changeAvatar(formData)
       .then((user) => userInfo.setUserInfo(user))
       .then(() => popupAvatar.close())
-      .finally(() => renderLoading('.popup_avatar-change', false));
+      .catch((err) => console.error(err))
+      .finally(() => renderLoading(popup.loadAvatar, false));
   }
 );
 popupAvatar.setEventListeners();
@@ -155,15 +166,16 @@ editProfileButton.addEventListener('click', () => {
 });
 
 const popupPlaceAdd = new PopupWithForm(
-  '.popup_add-places',
+  popup.addPlaces,
   popupConfig,
   (formData) => {
-    renderLoading('.popup_add-places', true);
+    renderLoading(popup.addPlaces, true);
     api
-      .sendNewElement(formData)
+      .addCard(formData)
       .then((result) => renderer(result))
       .then(() => popupPlaceAdd.close())
-      .finally(() => renderLoading('.popup_add-places', false, 'Создать'));
+      .catch((err) => console.error(err))
+      .finally(() => renderLoading(popup.addPlaces, false, 'Создать'));
   }
 );
 popupPlaceAdd.setEventListeners();
