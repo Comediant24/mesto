@@ -8,46 +8,48 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
 import UserInfo from '../components/UserInfo.js';
 import {
-  editProfileButton,
-  popupProfileNameInput,
-  popupProfileJobInput,
-  addPlacesButton,
   propertiesForm,
   popupConfig,
   userName,
   userJob,
   userAvatar,
-  currentUserId,
-  changeAvatarButton,
-  currentUserToken,
-  currentUserCohort,
   popup,
+  templateCard,
+  popupForm,
+  userConfig,
+  buttonConfig,
+  profileInput,
+  cardsContainer,
+  currentUser,
 } from '../utils/constants.js';
 import renderLoading from '../utils/utils.js';
 
 const api = new Api({
-  baseUrl: currentUserCohort,
+  baseUrl: currentUser.cohortUrl,
   headers: {
-    authorization: currentUserToken,
+    authorization: currentUser.token,
     'Content-Type': 'application/json',
   },
 });
 
-api.getUserInfo().then((data) => {
-  userName.textContent = data.name;
-  userJob.textContent = data.about;
-  userAvatar.src = data.avatar;
-});
+api
+  .getUserInfo()
+  .then((data) => {
+    userName.textContent = data.name;
+    userJob.textContent = data.about;
+    userAvatar.src = data.avatar;
+  })
+  .catch((err) => console.error(err));
 
-const popupDelete = new PopupWithConfirm('.popup_delete-place', popupConfig);
-const popupImage = new PopupWithImage('.popup_image-places', popupConfig);
+const popupDelete = new PopupWithConfirm(popup.deletePlace, popupConfig);
+const popupImage = new PopupWithImage(popup.imagePlace, popupConfig);
 popupDelete.setEventListeners();
 popupImage.setEventListeners();
 
 const renderer = (cardItem) => {
   const placeCard = new Card(
     cardItem,
-    '#places-template',
+    templateCard,
     {
       handleCardClick: () => {
         popupImage.open(cardItem);
@@ -65,7 +67,7 @@ const renderer = (cardItem) => {
         });
       },
       handleLikeClick: (like) => {
-        if (!like.classList.contains('places__button-like_enabled')) {
+        if (!like.classList.contains(buttonConfig.likeEnabled)) {
           return api
             .addLike(cardItem._id)
             .then((res) => {
@@ -81,7 +83,7 @@ const renderer = (cardItem) => {
           .catch((err) => console.error(err));
       },
     },
-    currentUserId
+    currentUser.id
   );
   cardsSection.addItem(placeCard.generateCard());
 };
@@ -90,7 +92,7 @@ const cardsSection = new Section(
   {
     renderer,
   },
-  '.places__cards'
+  cardsContainer
 );
 
 api
@@ -101,9 +103,9 @@ api
   .catch((err) => console.error(err));
 
 const userInfo = new UserInfo({
-  userName: '.profile__user-name',
-  userJob: '.profile__user-job',
-  userAvatar: '.profile__avatar',
+  userName: userConfig.name,
+  userJob: userConfig.job,
+  userAvatar: userConfig.avatar,
 });
 
 const popupUserInfoEdit = new PopupWithForm(
@@ -122,15 +124,15 @@ const popupUserInfoEdit = new PopupWithForm(
 popupUserInfoEdit.setEventListeners();
 
 const popupAvatarFormValidate = new FormValidator(
-  '.popup__form_avatar-change',
+  popupForm.avatarForm,
   propertiesForm
 );
 const popupProfileFormValidate = new FormValidator(
-  '.popup__form_edit-profile',
+  popupForm.editUserForm,
   propertiesForm
 );
 const popupPlaceFormValidate = new FormValidator(
-  '.popup__form_add-places',
+  popupForm.addPlaceForm,
   propertiesForm
 );
 popupProfileFormValidate.enableValidation();
@@ -152,15 +154,15 @@ const popupAvatar = new PopupWithForm(
 );
 popupAvatar.setEventListeners();
 
-changeAvatarButton.addEventListener('click', () => {
+buttonConfig.changeAvatar.addEventListener('click', () => {
   popupAvatar.open();
   popupAvatarFormValidate.resetForm();
 });
 
-editProfileButton.addEventListener('click', () => {
+buttonConfig.editProfile.addEventListener('click', () => {
   const userGetInfo = userInfo.getUserInfo();
-  popupProfileNameInput.value = userGetInfo.name;
-  popupProfileJobInput.value = userGetInfo.job;
+  profileInput.nameUser.value = userGetInfo.name;
+  profileInput.jobUser.value = userGetInfo.job;
   popupUserInfoEdit.open();
   popupProfileFormValidate.resetForm();
 });
@@ -180,7 +182,7 @@ const popupPlaceAdd = new PopupWithForm(
 );
 popupPlaceAdd.setEventListeners();
 
-addPlacesButton.addEventListener('click', () => {
+buttonConfig.addPlace.addEventListener('click', () => {
   popupPlaceAdd.open();
   popupPlaceFormValidate.resetForm();
 });
